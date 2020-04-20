@@ -1,0 +1,8 @@
+.main-container {
+    min-width: 320px;
+    max-width: 400px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
