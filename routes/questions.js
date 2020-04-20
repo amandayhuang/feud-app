@@ -14,7 +14,8 @@ const Question = require("../models/Question");
 // });
 
 router.get("/:question_id", (req, res) => {
-    Question.findById(req.params.id)
+    debugger
+    Question.findById(req.params.question_id)
         .then(question => res.json(question))
         .catch(err =>
             res.status(404).json({ noquestionfound: "Question not found" })
