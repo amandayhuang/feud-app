@@ -2,43 +2,27 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const db = require("./config/keys").mongoURI;
-const questions = require("./routes/questions");
-const answers = require("./routes/answers");
-// const Question = require("./models/Question")
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 // const bodyParser = require('body-parser');
-// const passport = require("passport");
-
-
-
-
-
 
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Connected to MongoDB successfully"))
     .catch(err => console.log(err));
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-    
+io.on('connection', (socket) => {
+    console.log("Connected to Socket yay!" + socket.id);
+    socket.emit('init', {});
 
-// app.use(passport.initialize());
-// require("./config/passport")(passport);
+    socket.on('multiplyNum', (num) => {
+        console.log(`Received message from client: ${num}. Returning new message`);
+        socket.emit('message', num * 2);
+    })
+});
 
-// app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
-
-
-
-app.use("/api/questions", questions);
-app.use("/api/answers", answers);
-    
-
-
-
-
-
+// app.use(bodyParser.urlencoded({ extended:true }));
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+http.listen(port, () => console.log(`Listening on port ${port}`));
