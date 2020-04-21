@@ -1,5 +1,5 @@
 class Room {
-    constructor(roomName,initialPlayer){
+    constructor(roomName,initialPlayer={}){
         this.roomName = roomName;
         this.game = {};
         this.players = [initialPlayer];
@@ -7,6 +7,10 @@ class Room {
 
     addPlayer(player){
         this.players.push(player);
+    }
+
+    getGameState(){
+        
     }
 
 }
