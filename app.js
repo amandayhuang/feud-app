@@ -1,14 +1,22 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const db = require("./config/keys").mongoURI;
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const db = require("./config/super_keys.js").mongoURI;
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+const path = require("path");
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/public"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "public", "index.html"));
+  });
+}
 
 mongoose
-    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected to MongoDB successfully"))
-    .catch(err => console.log(err));
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB successfully"))
+  .catch((err) => console.log(err));
 
 
 let rooms = [];
