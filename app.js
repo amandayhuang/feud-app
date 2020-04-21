@@ -5,6 +5,8 @@ const db = require("./config/super_keys.js").mongoURI;
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
+const Room = require('./room');
+const Game = require("./game");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/public"));
@@ -26,18 +28,22 @@ io.on('connect', (socket) => {
     socket.on('join', (room) => {
         socket.join(room);
         io.to(room).emit('receiveConsoleMessage', `You joined room ${room}`);
-        rooms.push(room);
+        let newRoom = new Room(room);
+        rooms.push(newRoom); //newRoom.roomName
     });
 });
 
 // set up dummy gameState object
 const gameState = { players: ["player 1", "player 2"], score: 100 };
 
+
+
 // regularly update all rooms with the gameState
 setInterval(() => {
     rooms.forEach(room => {
-        io.to(room).emit('receiveConsoleMessage', `Here is your update for room ${room}`);
-        io.to(room).emit('receiveGameState', gameState);
+        let newGameState = room.getGameState();
+        io.to(room.roomName).emit('receiveConsoleMessage', `Here is your update for room ${room.roomName}`);
+        io.to(room.roomName).emit('receiveGameState', gameState);
     })
 }, 2000);
 
