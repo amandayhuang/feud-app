@@ -5,7 +5,6 @@ const db = require("./config/keys").mongoURI;
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
-// const bodyParser = require('body-parser');
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/public"));
