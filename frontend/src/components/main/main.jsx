@@ -1,38 +1,54 @@
 import React from 'react';
 import './main.css';
 import io from 'socket.io-client';
+import RoomForm from '../room/room_form';
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: 10
+            joinedRoomId: '',
+            gameState: {}
         }
+        this.socket = null;
+        this.receiveGameState = this.receiveGameState.bind(this);
     }
 
     componentDidMount() {
         //the URL passed to io when setting this up needs to change based on environment
         this.socket = io("http://localhost:5000");
-        this.socket.on('init', (socket) => {
-            console.log("Frontend connected!" + this.socket.id);
-            console.log(this.socket);
-            console.log(`Sending message back to server: ${this.state.message}`);
-            this.socket.emit('multiplyNum', this.state.message);
+        this.socket.on('connect', (socket) => {
+            console.log("Frontend connected! Socket id: " + this.socket.id);
+
+            this.socket.on('receiveConsoleMessage', msg => {
+                console.log(msg);
+            });
+
+            this.socket.on('receiveGameState', this.receiveGameState);
         });
-        this.socket.on('message', (msg) => {
-            console.log(`Receiving message from server: ${msg}`);
-            this.setState({ message: msg})
-        })
+    }
+
+    receiveGameState(gameState) {
+        this.setState({ gameState: gameState});
+    }
+
+    handleRoomJoin(roomId) {
+        this.socket.emit('join', roomId);
+        this.setState({ joinedRoomId: roomId})
     }
 
     render () {
-        const { message } = this.state;
+        const joinedRoomId = this.state.joinedRoomId === '' ? 'Not in a room' : this.state.joinedRoomId;
+        const gameState = JSON.stringify(this.state.gameState);
         return (
             <div className="main-container">
-                <h1>Family Feud</h1>
+                <h1>Feuding Friends</h1>
+                <h1>{joinedRoomId}</h1>
+                <div className="room-form-container">
+                    <RoomForm handleRoomJoin={(roomId) => this.handleRoomJoin(roomId)}/>
+                </div>
                 <div>
-                    <p>Game content goes here</p>
-                    <p>Special message from our dearest server: {message}</p>
+                    {gameState}
                 </div>
             </div>
             
