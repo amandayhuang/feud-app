@@ -1,4 +1,5 @@
 const Player = require ('./player');
+const Game = require("./game");
 
 class Room {
     constructor(roomName){
@@ -21,9 +22,14 @@ class Room {
     }
 
     createGame(){
-        
+     this.game = new Game(this.players);
+     this.game.setQuestion()
+        .then(question => {
+        this.game.setAnswers().then(() => {
+            console.log(`the question is ${this.game.roundQuestion}`);
+        })
+    })
     }
-
 
 }
 

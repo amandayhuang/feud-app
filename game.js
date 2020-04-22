@@ -171,10 +171,6 @@ class Game {
         else {
             return false;
         }
-
-    resetRound () {
-        
-
     }
 
     //add logic for which team will be able to go first 
