@@ -21,12 +21,9 @@ class Room {
     }
 
     createGame(){
-
-    }
-
-    getPlayers(){
         
     }
+
 
 }
 
