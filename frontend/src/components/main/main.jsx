@@ -3,17 +3,24 @@ import "./main.css";
 import io from "socket.io-client";
 import RoomForm from "../room/room_form";
 import AnswerForm from "../answer/answer_form";
-import HOST from "../../util/host"
+import Lobby from "../game/lobby";
+import Game from "../game/game";
+import HOST from "../../util/host";
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       joinedRoomId: "",
-      gameState: {},
+      gameState: {
+        players: [],
+      },
+      roomErrors: "",
     };
     this.socket = null;
     this.receiveGameState = this.receiveGameState.bind(this);
+    this.receiveRoomError = this.receiveRoomError.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
   }
 
   componentDidMount() {
@@ -27,16 +34,25 @@ class Main extends React.Component {
       });
 
       this.socket.on("receiveGameState", this.receiveGameState);
+      this.socket.on("receiveRoomError", this.receiveRoomError);
+      this.socket.on("joinRoom", this.joinRoom);
     });
+  }
+
+  receiveRoomError(error) {
+    this.setState({ roomErrors: error });
+  }
+
+  joinRoom(roomId) {
+    this.setState({ joinedRoomId: roomId, roomErrors: "" });
   }
 
   receiveGameState(gameState) {
     this.setState({ gameState: gameState });
   }
 
-  handleRoomJoin(action, roomId) {
-    this.socket.emit(action, roomId); //action is 'join' or 'create'
-    this.setState({ joinedRoomId: roomId });
+  handleRoomJoin(action, roomId, nickname) {
+    this.socket.emit(action, roomId, nickname); //action is 'join' or 'create'
   }
 
   handleAnswerSubmit(answer) {
@@ -48,7 +64,8 @@ class Main extends React.Component {
       this.state.joinedRoomId === ""
         ? "Not in a room"
         : this.state.joinedRoomId;
-    const gameState = JSON.stringify(this.state.gameState);
+    const { gameState, roomErrors } = this.state;
+    const playerId = this.socket ? this.socket.id : null;
     return (
       <div className="main-container">
         <h1>Feuding Friends</h1>
@@ -60,12 +77,18 @@ class Main extends React.Component {
             }
           />
         </div>
+        <div>{roomErrors}</div>
         <div className="answer-form-container">
           <AnswerForm
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
           />
         </div>
-        <div>{gameState}</div>
+        <div>
+          <Lobby gameState={gameState} playerId={playerId} />
+        </div>
+        <div>
+          <Game gameState={gameState} />
+        </div>
       </div>
     );
   }

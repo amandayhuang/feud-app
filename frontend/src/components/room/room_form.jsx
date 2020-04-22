@@ -1,4 +1,5 @@
 import React from "react";
+import { removeNonAlpha } from "../../util/string_validation";
 
 class RoomForm extends React.Component {
   constructor(props) {
@@ -9,6 +10,8 @@ class RoomForm extends React.Component {
       nickname: "",
       phase: "decision",
     };
+    this.roomCodeMaxLength = 5;
+    this.nicknameMaxLength = 8;
     this.handleRoomJoin = this.handleRoomJoin.bind(this);
     this.updateForm = this.updateForm.bind(this);
     this.switchForm = this.switchForm.bind(this);
@@ -16,14 +19,15 @@ class RoomForm extends React.Component {
 
   updateForm(field) {
     return (e) => {
-      this.setState({ [field]: e.target.value });
+      const value = removeNonAlpha(e.target.value);
+      this.setState({ [field]: value });
     };
   }
 
   handleRoomJoin(e) {
     e.preventDefault();
     const { action, roomId, nickname } = this.state;
-    this.props.handleRoomJoin(action, roomId, nickname);
+    this.props.handleRoomJoin(action, roomId.toUpperCase(), nickname);
     this.setState({ roomId: "", nickname: "" });
   }
 
@@ -70,8 +74,9 @@ class RoomForm extends React.Component {
         <input
           type="text"
           placeholder="Enter room code"
-          value={this.state.roomId}
+          value={this.state.roomId.toUpperCase()}
           onChange={this.updateForm("roomId")}
+          maxLength={this.roomCodeMaxLength}
         ></input>
       );
       enterNickname = (
@@ -80,6 +85,7 @@ class RoomForm extends React.Component {
           placeholder="Nickname"
           value={this.state.nickname}
           onChange={this.updateForm("nickname")}
+          maxLength={this.nicknameMaxLength}
         ></input>
       );
 
