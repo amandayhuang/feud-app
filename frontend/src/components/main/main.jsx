@@ -2,6 +2,7 @@ import React from 'react';
 import './main.css';
 import io from 'socket.io-client';
 import RoomForm from '../room/room_form';
+import AnswerForm from '../answer/answer_form';
 
 class Main extends React.Component {
     constructor(props) {
@@ -32,9 +33,13 @@ class Main extends React.Component {
         this.setState({ gameState: gameState});
     }
 
-    handleRoomJoin(roomId) {
-        this.socket.emit('join', roomId);
+    handleRoomJoin(action, roomId) {
+        this.socket.emit(action, roomId); //action is 'join' or 'create'
         this.setState({ joinedRoomId: roomId})
+    }
+
+    handleAnswerSubmit(answer) {
+        this.socket.emit('answer', answer, this.state.joinedRoomId);
     }
 
     render () {
@@ -43,9 +48,12 @@ class Main extends React.Component {
         return (
             <div className="main-container">
                 <h1>Feuding Friends</h1>
-                <h1>{joinedRoomId}</h1>
+                <h2>{joinedRoomId}</h2>
                 <div className="room-form-container">
-                    <RoomForm handleRoomJoin={(roomId) => this.handleRoomJoin(roomId)}/>
+                    <RoomForm handleRoomJoin={(action, roomId, nickname) => this.handleRoomJoin(action, roomId, nickname)}/>
+                </div>
+                <div className="answer-form-container">
+                    <AnswerForm handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)} />
                 </div>
                 <div>
                     {gameState}
