@@ -1,0 +1,23 @@
+:root {
+  --orange: #f56b06;
+  --brown: #5f2d03;
+  --white: white;
+
+  --button-bg: var(--orange);
+  --button-text: var(--white);
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1em;
+}
+
+button {
+    font-size: 2em;
+    width: 90%;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
