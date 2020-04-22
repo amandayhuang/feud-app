@@ -52,8 +52,8 @@ class Game {
         }
 
         return QuestionModel.find({
-            // id: randomNum
-            id: 3072 //for testing
+            id: randomNum
+            // id: 3072 //for testing
         })
         .then(question => {
             return question[0];
@@ -165,6 +165,9 @@ class Game {
             }
             this.accumulatedPoints = 0;
             this.switchTeams();
+            this.setQuestion().then(() => {
+                this.setAnswers(this.roundQuestion.id)
+            })
             return true;
         } else if (this.strikes === 3){
             this.correctAnswerCount = 0;
