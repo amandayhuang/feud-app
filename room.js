@@ -10,6 +10,16 @@ class Room {
     }
 
     getGameState(){
+        //refers to this.game 
+        // team scores
+        // current players 
+    }
+
+    createGame(){
+
+    }
+
+    getPlayers(){
         
     }
 

@@ -14,6 +14,7 @@ class Game {
         this.currentTeam = this.team1
         this.currentPlayer = this.team1[0];
         this.currentQuestion = { id: 0, text: '' }
+        this.strikes = 0
         for (var i = 0; i < players.length; i++) {
             let player = players[i];
             if (i % 2 === 0) {
@@ -53,7 +54,16 @@ class Game {
 
     switchTurns() {
         
+    }
 
+    receiveAnswer(answer){
+        // check if answer exists for current question
+        // refer to fetchAnswers 
+        //update points if valid answer
+    }
+
+    resetRound {
+        
     }
 
 
