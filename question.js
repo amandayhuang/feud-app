@@ -8,6 +8,7 @@ class Question {
           id: questionId,
         })
           .then((question) => {
+            // console.log("got qs")
               this.text = question[0].text;
               this.id = question[0].id;
               console.log(question[0].text);

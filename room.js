@@ -16,12 +16,9 @@ class Room {
     }
 
     createGame(){
-
-    }
-
-    getPlayers(){
         
     }
+
 
 }
 
