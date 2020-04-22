@@ -3,6 +3,7 @@ import "./main.css";
 import io from "socket.io-client";
 import RoomForm from "../room/room_form";
 import AnswerForm from "../answer/answer_form";
+import HOST from "../../util/host"
 
 class Main extends React.Component {
   constructor(props) {
@@ -17,12 +18,6 @@ class Main extends React.Component {
 
   componentDidMount() {
     //the URL passed to io when setting this up needs to change based on environment
-
-    const HOST =
-      process.env.NODE_ENV === "production"
-        ? "https://feuding-friends.herokuapp.com/"
-        : "http://localhost:5000";
-
     this.socket = io(HOST);
     this.socket.on("connect", (socket) => {
       console.log("Frontend connected! Socket id: " + this.socket.id);
