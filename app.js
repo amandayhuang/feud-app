@@ -21,52 +21,46 @@ mongoose
   .catch((err) => console.log(err));
 
 
-let rooms = [];
-// empty players hash for testing player assignment
-let players = {};
+let rooms = {};
 io.on('connect', (socket) => {
     console.log("Connected to Socket yay! Socket id: " + socket.id);
 
-    socket.on('create', (room, nickname) => {
-        socket.join(room);
-        // add player using socketID to their room
-        // can be replaced by room addPlayer method
-        players[room] ? players[room].push(socket.id) : players[room] = [socket.id];
-        socket.emit('receiveConsoleMessage', `You created room ${room}`);
-        let newRoom = { [room]: new Room(room)};
-        rooms.push(newRoom); //newRoom.roomName
-        console.log(rooms);
+    socket.on('create', (roomName, nickname) => {
+        socket.join(roomName);
+        socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
+        let newRoom = new Room(roomName);
+        newRoom.addPlayer(nickname, socket.id);
+        rooms[roomName] = newRoom;
     });
 
-    socket.on('join', (room, nickname) => {
-        socket.join(room);
-        // add player using socketID to their room
-        // can be replaced by room addPlayer method
-        players[room] ? players[room].push(socket.id) : players[room] = [socket.id];
-        socket.emit('receiveConsoleMessage', `You joined room ${room}`);
+    socket.on('join', (roomName, nickname) => {
+        socket.join(roomName);
+        socket.emit('receiveConsoleMessage', `You joined room ${roomName}`);
     });
+
+    socket.on('startGame', () => {
+
+    })
 
     socket.on('answer', (answer, roomId) => {
         // socket.id === playerId
         // can use room receiveAnswer (or whatever) method here
-        socket.emit('receiveConsoleMessage', `You answered ${answer}`)
-        socket.to(roomId).emit('receiveConsoleMessage', `Someone answered ${answer}`)
+        socket.emit('receiveConsoleMessage', `You answered ${answer}`);
+        socket.to(roomId).emit('receiveConsoleMessage', `Someone answered ${answer}`);
     })
 });
 
 // set up dummy gameState object
-const gameState = { players: ["player 1", "player 2"], score: 100 };
+const gameState = { };
 
 // regularly update all rooms with the gameState
 setInterval(() => {
-    rooms.forEach((roomObj, idx) => {
-        const room = roomObj[Object.keys(rooms[idx])]; //maybe this is overly complicated!
+    Object.keys(rooms).forEach(roomName => {
+        const room = rooms[roomName];
         let newGameState = room.getGameState();
         io.to(room.roomName).emit('receiveConsoleMessage', `Here is your update for room ${room.roomName}`);
+        io.to(room.roomName).emit('receiveConsoleMessage', `Players: ${room.players[0].name}`);
         io.to(room.roomName).emit('receiveGameState', gameState);
-        players[room.roomName].forEach((playerId, idx) => {
-            io.to(playerId).emit('receiveConsoleMessage', `You are player ${idx}`);
-        })
     })
 }, 2000);
 

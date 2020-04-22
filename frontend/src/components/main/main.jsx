@@ -33,8 +33,8 @@ class Main extends React.Component {
         this.setState({ gameState: gameState});
     }
 
-    handleRoomJoin(action, roomId) {
-        this.socket.emit(action, roomId); //action is 'join' or 'create'
+    handleRoomJoin(action, roomId, nickname) {
+        this.socket.emit(action, roomId, nickname); //action is 'join' or 'create'
         this.setState({ joinedRoomId: roomId})
     }
 

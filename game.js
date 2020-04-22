@@ -62,7 +62,7 @@ class Game {
         //update points if valid answer
     }
 
-    resetRound {
+    resetRound () {
         
     }
 
