@@ -23,7 +23,6 @@ class Main extends React.Component {
         ? "https://feuding-friends.herokuapp.com/"
         : "http://localhost:5000";
 
-    export default HOST;
     this.socket = io(HOST);
     this.socket.on("connect", (socket) => {
       console.log("Frontend connected! Socket id: " + this.socket.id);
