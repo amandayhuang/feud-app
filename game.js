@@ -44,7 +44,6 @@ class Game {
             })
     }
     //    this.fetchQuestion(this.visitedQs).then(question => this.currentQuestionId = question.id);
-  }
 
     fetchQuestion(visitedQs) {
         let randomNum = Math.floor(Math.random() * Math.floor(3923));
@@ -92,7 +91,6 @@ class Game {
             this.currentPlayer = this.team1[0];
         }
     }
-  }
 
     switchTurns() {
        let index = this.currentTeam.indexOf(this.currentPlayer);
@@ -180,5 +178,6 @@ class Game {
             return false;
         }
     }
+}
 
 module.exports = Game;
