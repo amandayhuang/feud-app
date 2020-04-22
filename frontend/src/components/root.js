@@ -4,6 +4,9 @@ import { HashRouter } from 'react-router-dom';
 
 import App from './app';
 
+import '../styles/reset.css';
+import '../styles/layout.css';
+
 const Root = ({ store }) => (
     <Provider store={store}>
         <HashRouter>
