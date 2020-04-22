@@ -15,6 +15,9 @@ class Room {
         //refers to this.game 
         // team scores
         // current players 
+        return ({
+            players: this.players,
+        })
     }
 
     createGame(){
