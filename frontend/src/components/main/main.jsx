@@ -16,6 +16,7 @@ class Main extends React.Component {
         players: [],
       },
       roomErrors: "",
+      phase: "prelobby",
     };
     this.socket = null;
     this.receiveGameState = this.receiveGameState.bind(this);
@@ -36,6 +37,7 @@ class Main extends React.Component {
       this.socket.on("receiveGameState", this.receiveGameState);
       this.socket.on("receiveRoomError", this.receiveRoomError);
       this.socket.on("joinRoom", this.joinRoom);
+      this.socket.on("startGame", this.startGame);
     });
   }
 
@@ -44,7 +46,11 @@ class Main extends React.Component {
   }
 
   joinRoom(roomId) {
-    this.setState({ joinedRoomId: roomId, roomErrors: "" });
+    this.setState({ joinedRoomId: roomId, roomErrors: "", phase: "lobby" });
+  }
+
+  startGame() {
+    this.setState({ phase: "game" });
   }
 
   receiveGameState(gameState) {
@@ -64,31 +70,51 @@ class Main extends React.Component {
       this.state.joinedRoomId === ""
         ? "Not in a room"
         : this.state.joinedRoomId;
-    const { gameState, roomErrors } = this.state;
+    const { gameState, roomErrors, phase } = this.state;
     const playerId = this.socket ? this.socket.id : null;
-    return (
-      <div className="main-container">
-        <h1>Feuding Friends</h1>
-        <h2>{joinedRoomId}</h2>
-        <div className="room-form-container">
-          <RoomForm
-            handleRoomJoin={(action, roomId, nickname) =>
-              this.handleRoomJoin(action, roomId, nickname)
-            }
-          />
-        </div>
-        <div>{roomErrors}</div>
-        <div className="answer-form-container">
-          <AnswerForm
-            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
-          />
-        </div>
+    let prelobby, lobby, game;
+
+    if (phase === "prelobby") {
+      prelobby = (
+        <>
+          <div className="room-form-container">
+            <RoomForm
+              handleRoomJoin={(action, roomId, nickname) =>
+                this.handleRoomJoin(action, roomId, nickname)
+              }
+            />
+          </div>
+          <div>{roomErrors}</div>
+        </>
+      );
+    } else if (phase === "lobby") {
+      lobby = (
         <div>
           <Lobby gameState={gameState} playerId={playerId} />
         </div>
-        <div>
-          <Game gameState={gameState} />
-        </div>
+      );
+    } else if (phase === "game") {
+      game = (
+        <>
+          <div>
+            <Game gameState={gameState} />
+          </div>
+          <div className="answer-form-container">
+            <AnswerForm
+              handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            />
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <div className="main-container">
+        <h1>Feuding Friends</h1> {/*feud logo */}
+        <h2>{joinedRoomId}</h2>
+        {prelobby}
+        {lobby}
+        {game}
       </div>
     );
   }
