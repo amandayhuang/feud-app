@@ -22,6 +22,7 @@ class Main extends React.Component {
     this.receiveGameState = this.receiveGameState.bind(this);
     this.receiveRoomError = this.receiveRoomError.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   componentDidMount() {

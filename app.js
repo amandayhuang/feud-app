@@ -41,6 +41,7 @@ io.on('connect', (socket) => {
             newRoom.game.setQuestion().then(() => {
               newRoom.game.setAnswers(newRoom.game.roundQuestion.id).then(() => {});
             });
+            socket.emit('startGame');
         }     
     });
 
@@ -66,14 +67,9 @@ io.on('connect', (socket) => {
     })
 
     socket.on('answer', (answer, roomName) => {
-        // const newAnswer = {
-        //     answer: answer,
-        //     playerId: socket.id
-        // }
-        // rooms[roomName].receiveAnswer(newAnswer);
-
+        rooms[roomName].game.receiveAnswer(answer);
         socket.emit('receiveConsoleMessage', `You answered ${answer}`);
-        socket.to(roomId).emit('receiveConsoleMessage', `Someone answered ${answer}`);
+        socket.to(roomName).emit('receiveConsoleMessage', `Someone answered ${answer}`);
     })
 });
 

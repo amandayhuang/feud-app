@@ -13,7 +13,8 @@ class Game extends React.Component {
         return (
             <div className="game-container">
                 <div className="answer-board">
-
+                    {JSON.stringify(answerBoard)}
+                    {strikes}
                 </div>
             </div>
         )
