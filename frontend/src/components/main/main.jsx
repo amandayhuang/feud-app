@@ -1,67 +1,80 @@
-import React from 'react';
-import './main.css';
-import io from 'socket.io-client';
-import RoomForm from '../room/room_form';
-import AnswerForm from '../answer/answer_form';
+import React from "react";
+import "./main.css";
+import io from "socket.io-client";
+import RoomForm from "../room/room_form";
+import AnswerForm from "../answer/answer_form";
 
 class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            joinedRoomId: '',
-            gameState: {}
-        }
-        this.socket = null;
-        this.receiveGameState = this.receiveGameState.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      joinedRoomId: "",
+      gameState: {},
+    };
+    this.socket = null;
+    this.receiveGameState = this.receiveGameState.bind(this);
+  }
 
-    componentDidMount() {
-        //the URL passed to io when setting this up needs to change based on environment
-        this.socket = io("http://localhost:5000");
-        this.socket.on('connect', (socket) => {
-            console.log("Frontend connected! Socket id: " + this.socket.id);
+  componentDidMount() {
+    //the URL passed to io when setting this up needs to change based on environment
 
-            this.socket.on('receiveConsoleMessage', msg => {
-                console.log(msg);
-            });
+    const HOST =
+      process.env.NODE_ENV === "production"
+        ? "https://feuding-friends.herokuapp.com/"
+        : "http://localhost:5000";
 
-            this.socket.on('receiveGameState', this.receiveGameState);
-        });
-    }
+    export default HOST;
+    this.socket = io(HOST);
+    this.socket.on("connect", (socket) => {
+      console.log("Frontend connected! Socket id: " + this.socket.id);
 
-    receiveGameState(gameState) {
-        this.setState({ gameState: gameState});
-    }
+      this.socket.on("receiveConsoleMessage", (msg) => {
+        console.log(msg);
+      });
 
-    handleRoomJoin(action, roomId) {
-        this.socket.emit(action, roomId); //action is 'join' or 'create'
-        this.setState({ joinedRoomId: roomId})
-    }
+      this.socket.on("receiveGameState", this.receiveGameState);
+    });
+  }
 
-    handleAnswerSubmit(answer) {
-        this.socket.emit('answer', answer, this.state.joinedRoomId);
-    }
+  receiveGameState(gameState) {
+    this.setState({ gameState: gameState });
+  }
 
-    render () {
-        const joinedRoomId = this.state.joinedRoomId === '' ? 'Not in a room' : this.state.joinedRoomId;
-        const gameState = JSON.stringify(this.state.gameState);
-        return (
-            <div className="main-container">
-                <h1>Feuding Friends</h1>
-                <h2>{joinedRoomId}</h2>
-                <div className="room-form-container">
-                    <RoomForm handleRoomJoin={(action, roomId, nickname) => this.handleRoomJoin(action, roomId, nickname)}/>
-                </div>
-                <div className="answer-form-container">
-                    <AnswerForm handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)} />
-                </div>
-                <div>
-                    {gameState}
-                </div>
-            </div>
-            
-        )
-    }
+  handleRoomJoin(action, roomId) {
+    this.socket.emit(action, roomId); //action is 'join' or 'create'
+    this.setState({ joinedRoomId: roomId });
+  }
+
+  handleAnswerSubmit(answer) {
+    this.socket.emit("answer", answer, this.state.joinedRoomId);
+  }
+
+  render() {
+    const joinedRoomId =
+      this.state.joinedRoomId === ""
+        ? "Not in a room"
+        : this.state.joinedRoomId;
+    const gameState = JSON.stringify(this.state.gameState);
+    return (
+      <div className="main-container">
+        <h1>Feuding Friends</h1>
+        <h2>{joinedRoomId}</h2>
+        <div className="room-form-container">
+          <RoomForm
+            handleRoomJoin={(action, roomId, nickname) =>
+              this.handleRoomJoin(action, roomId, nickname)
+            }
+          />
+        </div>
+        <div className="answer-form-container">
+          <AnswerForm
+            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+          />
+        </div>
+        <div>{gameState}</div>
+      </div>
+    );
+  }
 }
 
 export default Main;
