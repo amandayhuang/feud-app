@@ -43,6 +43,8 @@ class Game {
                 this.roundAnswers = answers;
             })
     }
+    //    this.fetchQuestion(this.visitedQs).then(question => this.currentQuestionId = question.id);
+  }
 
     fetchQuestion(visitedQs) {
         let randomNum = Math.floor(Math.random() * Math.floor(3923));
@@ -75,6 +77,11 @@ class Game {
         })
     }
 
+  fetchAnswers(questionId) {
+    return AnswerModel.find({
+      question_id: questionId,
+    }).then((answers) => answers);
+  }
 
     switchTeams() {
         if (this.currentTeam === this.team1) {
@@ -85,6 +92,7 @@ class Game {
             this.currentPlayer = this.team1[0];
         }
     }
+  }
 
     switchTurns() {
        let index = this.currentTeam.indexOf(this.currentPlayer);
@@ -176,9 +184,5 @@ class Game {
         
 
     }
-
-    //add logic for which team will be able to go first 
-
-}
 
 module.exports = Game;
