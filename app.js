@@ -21,31 +21,59 @@ mongoose
   .catch((err) => console.log(err));
 
 
-let rooms = [];
+let rooms = {};
 io.on('connect', (socket) => {
     console.log("Connected to Socket yay! Socket id: " + socket.id);
 
-    socket.on('join', (room) => {
-        socket.join(room);
-        io.to(room).emit('receiveConsoleMessage', `You joined room ${room}`);
-        let newRoom = new Room(room);
-        rooms.push(newRoom); //newRoom.roomName
+    socket.on('create', (roomName, nickname) => {
+        if (rooms[roomName]) {
+            socket.emit('receiveRoomError', 'Room already exists!');
+        } else {
+            socket.join(roomName);
+            socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
+            socket.emit('joinRoom', roomName);
+            let newRoom = new Room(roomName);
+            newRoom.addPlayer(nickname, socket.id);
+            rooms[roomName] = newRoom;
+        }     
     });
+
+    socket.on('join', (roomName, nickname) => {
+        if (rooms[roomName]) {
+            socket.join(roomName);
+            socket.emit('receiveConsoleMessage', `You joined room ${roomName}`);
+            socket.emit('joinRoom', roomName);
+            rooms[roomName].addPlayer(nickname, socket.id);
+        } else {
+            socket.emit('receiveRoomError', 'Room does not exist!');
+        }
+    });
+
+    socket.on('startGame', roomName => {
+        // rooms[roomName].startGame();
+    })
+
+    socket.on('answer', (answer, roomName) => {
+        // const newAnswer = {
+        //     answer: answer,
+        //     playerId: socket.id
+        // }
+        // rooms[roomName].receiveAnswer(newAnswer);
+
+        socket.emit('receiveConsoleMessage', `You answered ${answer}`);
+        socket.to(roomId).emit('receiveConsoleMessage', `Someone answered ${answer}`);
+    })
 });
-
-// set up dummy gameState object
-const gameState = { players: ["player 1", "player 2"], score: 100 };
-
-
 
 // regularly update all rooms with the gameState
 setInterval(() => {
-    rooms.forEach(room => {
+    Object.keys(rooms).forEach(roomName => {
+        const room = rooms[roomName];
         let newGameState = room.getGameState();
-        io.to(room.roomName).emit('receiveConsoleMessage', `Here is your update for room ${room.roomName}`);
-        io.to(room.roomName).emit('receiveGameState', gameState);
+        // io.to(room.roomName).emit('receiveConsoleMessage', `Here is your update for room ${room.roomName}`);
+        io.to(room.roomName).emit('receiveGameState', newGameState);
     })
-}, 2000);
+}, 1000);
 
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));

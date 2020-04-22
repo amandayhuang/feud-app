@@ -123,6 +123,7 @@ class Game {
         return isCorrect;
     }
 
+
     stealRound() {
         // start on this once sure all other logic is working 
         //logic for when a team gets 3 strikes current team will be switched and currentPlayer is asked the question 
@@ -170,6 +171,10 @@ class Game {
         else {
             return false;
         }
+
+    resetRound () {
+        
+
     }
 
     //add logic for which team will be able to go first 
