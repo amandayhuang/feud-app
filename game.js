@@ -175,6 +175,9 @@ class Game {
             this.round += 1;
             this.accumulatedPoints = 0;
             this.switchTeams();
+            this.setQuestion().then(() => {
+                this.setAnswers(this.roundQuestion.id)
+            })
             return true;
         }
         else {
