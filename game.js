@@ -179,10 +179,6 @@ class Game {
         else {
             return false;
         }
-
-    resetRound () {
-        
-
     }
 
 module.exports = Game;
