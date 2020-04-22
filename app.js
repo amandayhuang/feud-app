@@ -7,6 +7,7 @@ const io = require("socket.io")(http);
 const path = require("path");
 const Room = require('./room');
 const Game = require("./game");
+const Player = require("./player");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
@@ -35,6 +36,11 @@ io.on('connect', (socket) => {
             let newRoom = new Room(roomName);
             newRoom.addPlayer(nickname, socket.id);
             rooms[roomName] = newRoom;
+
+            newRoom.game = new Game(newRoom.players);
+            newRoom.game.setQuestion().then(() => {
+              newRoom.game.setAnswers(newRoom.game.roundQuestion.id).then(() => {});
+            });
         }     
     });
 
@@ -50,7 +56,13 @@ io.on('connect', (socket) => {
     });
 
     socket.on('startGame', roomName => {
-        // rooms[roomName].startGame();
+        let room = rooms[roomName];
+        room.game = new Game(room.players);
+        room.game.setQuestion().then(() => {
+          room.game.setAnswers(room.game.roundQuestion.id).then(() => {
+          });
+        });
+        
     })
 
     socket.on('answer', (answer, roomName) => {
@@ -77,3 +89,21 @@ setInterval(() => {
 
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
+
+// const room = new Room("hello");
+// const player1 = new Player("adam", 123);
+// const player2 = new Player("amanda", 124);
+// const player3 = new Player("Naz", 125);
+// const player4 = new Player("Jared", 126);
+// room.players = [player1, player2, player3, player4];
+// console.log(room.roomName);
+
+
+
+
+//   room.game.receiveAnswer("Back");
+//   console.log(room.getGameState());
+//   room.game.receiveAnswer("fnjnr");
+//   console.log(room.getGameState());
+//   room.game.receiveAnswer("fnjnr");
+//   console.log(room.getGameState());
