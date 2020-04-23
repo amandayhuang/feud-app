@@ -18,7 +18,8 @@ class Room {
             accumulatedPoints : 0,
             roundQuestion : {},
             roundAnswers : [],
-            phase : "empty_game"
+            phase : "empty_game",
+            teamNum: 0
         };
         this.players = [];
     }
@@ -43,7 +44,7 @@ class Room {
 
             answerBoard.push(newEle);
         }
-
+        
         return {
           players: this.players,
           team1players: this.game.team1,
@@ -57,7 +58,8 @@ class Room {
           strikes: this.game.strikes,
           answerBoard: answerBoard,
           round: this.game.round,
-          phase: this.game.phase
+          phase: this.game.phase,
+          teamNum: this.game.teamNum
         };
     }
 
