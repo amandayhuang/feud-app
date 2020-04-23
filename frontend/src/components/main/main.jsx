@@ -18,15 +18,18 @@ class Main extends React.Component {
       gameErrors: "",
       otherAnswer: null,
       phase: "prelobby",
+      gamePhase: "round"
     };
     this.socket = null;
     this.otherAnswerTimer = null;
+    // this.startRoundTimer = null;
     this.receiveGameState = this.receiveGameState.bind(this);
     this.receiveRoomError = this.receiveRoomError.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.setPhase = this.setPhase.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
     this.receiveOtherAnswer = this.receiveOtherAnswer.bind(this);
+    this.startNewRound = this.startNewRound.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +46,7 @@ class Main extends React.Component {
       this.socket.on("joinRoom", this.joinRoom);
       this.socket.on("setPhase", this.setPhase);
       this.socket.on("receiveOtherAnswer", this.receiveOtherAnswer);
+      this.socket.on("startNewRound", this.startNewRound);
     });
   }
 
@@ -56,6 +60,11 @@ class Main extends React.Component {
 
   setPhase(phase) {
     this.setState({ phase: phase });
+  }
+
+  startNewRound() {
+    this.setState({ gamePhase: 'newRound' })
+    setInterval(() => this.setState({ gamePhase: 'round'}), 5000);
   }
 
   receiveGameState(gameState) {
@@ -84,7 +93,7 @@ class Main extends React.Component {
 
   render() {
     const roomName = this.state.roomName === "" ? "" : this.state.roomName;
-    const { gameState, roomErrors, phase, otherAnswer } = this.state;
+    const { gameState, roomErrors, phase, gamePhase, otherAnswer } = this.state;
     const playerId = this.socket ? this.socket.id : null;
     let prelobby, lobby, game;
 
@@ -118,6 +127,7 @@ class Main extends React.Component {
             gameState={gameState}
             playerId={playerId}
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            gamePhase={gamePhase}
             otherAnswer={otherAnswer}
           />
         </div>
