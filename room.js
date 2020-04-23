@@ -19,7 +19,8 @@ class Room {
             roundQuestion : {},
             roundAnswers : [],
             phase : "empty_game",
-            teamNum: 0
+            teamNum: 0,
+            lightningRoundCount: 0;
         };
         this.players = [];
     }
