@@ -52,8 +52,8 @@ class Game {
         }
 
         return QuestionModel.find({
-            id: randomNum
-            // id: 3072 //for testing
+            // id: randomNum
+            id: 3072 //for testing
         })
         .then(question => {
             return question[0];
@@ -99,15 +99,28 @@ class Game {
         for (let i = 0; i < this.roundAnswers.length; i++) {
             const element = this.roundAnswers[i];
             const correctAnswer = element.answer.toLowerCase();
-            if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
-                this.mentionedAnswers.push(answer);
-                this.correctAnswerCount ++;
-                this.accumulatedPoints += element.points;
-                isCorrect = true;
-                console.log("correct answer");
-            }
-            else if(this.mentionedAnswers.includes(answer)){
-                isDupe = true;
+
+            if(this.phase === 'steal'){
+                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
+                    if (this.currentTeam === this.team1) {
+                        this.team1Points += this.accumulatedPoints;
+                    } else {
+                        this.team2Points += this.accumulatedPoints;
+                    }  
+                    console.log("correct answer");
+                    isCorrect = true;
+                }
+            }else{
+                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
+                    this.mentionedAnswers.push(answer);
+                    this.correctAnswerCount ++;
+                    this.accumulatedPoints += element.points;
+                    isCorrect = true;
+                    console.log("correct answer");
+                }
+                else if(this.mentionedAnswers.includes(answer)){
+                    isDupe = true;
+                }
             }
         }
 
@@ -116,20 +129,60 @@ class Game {
             console.log("incorrect answer");
         }
 
-        this.switchTurns();
-        this.isRoundOver();
+        if(this.phase === 'steal'){
+            this.resetRound();
+        }else{
+            this.switchTurns();
+            this.isRoundOver();
+        }
         return isCorrect;
     }
 
+    // receiveStealAnswer(answer) {
+    //     let isCorrect = false;
+    //     let isDupe = false;
+    //     answer = answer.toLowerCase();
+    //     for (let i = 0; i < this.roundAnswers.length; i++) {
+    //         const element = this.roundAnswers[i];
+    //         const correctAnswer = element.answer.toLowerCase();
+    //         if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)) {
+    //             this.mentionedAnswers.push(answer);
+    //             this.correctAnswerCount++;
+    //             this.accumulatedPoints += element.points;
+    //             isCorrect = true;
+    //             console.log("correct answer");
+    //         }
+    //         else if (this.mentionedAnswers.includes(answer)) {
+    //             isDupe = true;
+    //         }
+    //     }
+
+    //     if (isCorrect === false && isDupe === false) {
+    //         console.log("incorrect answer");
+    //     }
+
+     
+    //     return isCorrect;
+    // }
+    
 
     stealRound() {
-        // start on this once sure all other logic is working 
-        //logic for when a team gets 3 strikes current team will be switched and currentPlayer is asked the question 
-        //being asked in currentRound, and if they get it right they get accumulatedPoints of that round 
-        // and either way if wrong or right a new round will be started after. 
+     this.phase = "steal";
+     this.switchTeams();
+        // if (this.phase === ) {
+        //     if (this.currentTeam === team1) {
+        //         this.team1Points += this.accumulatedPoints;
+        //     } else {
+        //         this.team2Points += this.accumulatedPoints;
+        //     }
+        // }
+        // this.resetRound();
     }
 
     resetRound() {
+        if(this.phase !== 'steal'){
+            this.switchTeams();
+        }
         if(this.isGameOver()){
             this.phase = 'end_game';
             return;
@@ -139,7 +192,6 @@ class Game {
         this.strikes = 0;
         this.round += 1;
         this.phase = "round_"+this.round;
-        this.switchTeams();
         this.setQuestion().then(() => {
             this.setAnswers(this.roundQuestion.id)
         });
@@ -164,7 +216,7 @@ class Game {
             this.resetRound();
             return true;
         } else if (this.strikes === 3){
-            this.resetRound();
+            this.stealRound();
             return true;
         }
         else {
