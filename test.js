@@ -18,33 +18,36 @@ const player4 = new Player("Jared", 126);
 
 const game = new Game([player1, player2, player3, player4]);
 
-// console.log(game.team1);
-// console.log(game.team2);
-// game.setQuestion()
-//   .then(question => {
-//     game.setAnswers().then(() => {
-//         console.log(game.roundQuestion.text);
-//         console.log(game.roundAnswers);
-//         console.log(`current team: ${game.currentTeam}`);
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         game.receiveAnswer("breasts");
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         game.receiveAnswer("butt");
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         game.receiveAnswer("back");
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         game.receiveAnswer("fewfew");
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         game.receiveAnswer("fewfew");
-//         console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
-//         console.log(`team1points ${game.team1Points} team2points ${game.team2Points}`)
-//     })
-//   });
+console.log(game.team1);
+console.log(game.team2);
+game.setQuestion()
+  .then(question => {
+    game.setAnswers().then(() => {
+        console.log(game.roundQuestion.text);
+        console.log(game.roundAnswers);
+        console.log(`current team: ${game.currentTeam}`);
+        console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}` );
+        game.receiveAnswer("back");
+      console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}`);
+        game.receiveAnswer("h");
+      console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}`);
+        game.receiveAnswer("wrong");
+      console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}`);
+      game.receiveAnswer("wrong");
+      console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}`);
+        game.receiveAnswer("breasts");
+      console.log(game.roundQuestion.text);
+      console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes} phase :${game.phase} points1: ${game.team1Points} points2: ${game.team2Points} accumpoints: ${game.accumulatedPoints}`);
+        // game.receiveAnswer("fewfew");
+        // console.log(`current player: ${game.currentPlayer.name} correctAnswers: ${game.correctAnswerCount} strikes: ${game.strikes}`);
+        // console.log(`team1points ${game.team1Points} team2points ${game.team2Points}`)
+    })
+  });
 
 
-  const room = new Room("hello");
-  console.log(room.roomName);
-  room.createGame();
+  // const room = new Room("hello");
+  // console.log(room.roomName);
+  // room.createGame();
 
 
 
