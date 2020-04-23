@@ -202,7 +202,7 @@ class Game {
             this.strikes = 0;
             this.round += 1;
             this.phase = "round_"+this.round;
-            startNewRound(this.roomName);
+            // startNewRound(this.roomName);
             this.setQuestion().then(() => {
                 this.setAnswers(this.roundQuestion.id)
             });

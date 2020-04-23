@@ -64,25 +64,12 @@ class Room {
         };
     }
 
-    // createGame(){
-    //  this.game = new Game(this.players);
-    //  return this.game.setQuestion()
-    //     .then(question => {
-    //     this.game.setAnswers().then(() => {
-    //         console.log(`the question is ${this.game.roundAnswers}`);
-    //     })
-    // })
-    // }
-
-    // createGame(){
-    //     this.game = new Game(this.players);
-    //     return this.game.setQuestion()
-    //     .then(() => {
-    //         // console.log(this.game.roundQuestion);
-    //         this.game.setAnswers(this.game.roundQuestion.id);
-    //     }
-    //     )
-    // }
+    createGame(){
+        this.game = new Game(this.players, this.roomName);
+        this.game.setQuestion().then(() => {
+            this.game.setAnswers(this.game.roundQuestion.id).then(() => { console.log('game created')});
+        });
+    }
 
 }
 

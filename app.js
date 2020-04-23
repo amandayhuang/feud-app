@@ -6,8 +6,6 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
 const Room = require('./room');
-const Game = require("./game");
-const Player = require("./player");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
@@ -53,10 +51,7 @@ io.on('connect', (socket) => {
     socket.on('startGame', roomName => {
         console.log('Starting game')
         let room = rooms[roomName];
-        room.game = new Game(room.players, roomName);
-        room.game.setQuestion().then(() => {
-          room.game.setAnswers(room.game.roundQuestion.id).then(() => {});
-        });
+        room.createGame();
         io.to(roomName).emit('setPhase', 'game');
     })
 
