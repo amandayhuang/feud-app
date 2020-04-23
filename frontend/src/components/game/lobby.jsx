@@ -10,7 +10,7 @@ class Lobby extends React.Component {
 
     render() {
         const { players } = this.props.gameState;
-        const { playerId } = this.props;
+        const { playerId, handleStartGame } = this.props;
         const playersList = players.map(player => {
             if (player.id === playerId) {
                 return (
@@ -32,6 +32,7 @@ class Lobby extends React.Component {
                 <ul>
                     {playersList}
                 </ul>
+                <button onClick={handleStartGame}>Start Game</button>
             </div>
         )
     }

@@ -2,7 +2,6 @@ import React from "react";
 import "./main.css";
 import io from "socket.io-client";
 import RoomForm from "../room/room_form";
-import AnswerForm from "../answer/answer_form";
 import Lobby from "../game/lobby";
 import Game from "../game/game";
 import HOST from "../../util/host";
@@ -11,7 +10,7 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      joinedRoomId: "",
+      roomName: "",
       gameState: {
         players: [],
       },
@@ -22,7 +21,8 @@ class Main extends React.Component {
     this.receiveGameState = this.receiveGameState.bind(this);
     this.receiveRoomError = this.receiveRoomError.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
-    this.startGame = this.startGame.bind(this);
+    this.setPhase = this.setPhase.bind(this);
+    this.handleStartGame = this.handleStartGame.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ class Main extends React.Component {
       this.socket.on("receiveGameState", this.receiveGameState);
       this.socket.on("receiveRoomError", this.receiveRoomError);
       this.socket.on("joinRoom", this.joinRoom);
-      this.socket.on("startGame", this.startGame);
+      this.socket.on("setPhase", this.setPhase);
     });
   }
 
@@ -46,31 +46,32 @@ class Main extends React.Component {
     this.setState({ roomErrors: error });
   }
 
-  joinRoom(roomId) {
-    this.setState({ joinedRoomId: roomId, roomErrors: "", phase: "lobby" });
+  joinRoom(roomName) {
+    this.setState({ roomName: roomName, roomErrors: "", phase: "lobby" });
   }
 
-  startGame() {
-    this.setState({ phase: "game" });
+  setPhase(phase) {
+    this.setState({ phase: phase });
   }
 
   receiveGameState(gameState) {
     this.setState({ gameState: gameState });
   }
 
-  handleRoomJoin(action, roomId, nickname) {
-    this.socket.emit(action, roomId, nickname); //action is 'join' or 'create'
+  handleRoomJoin(action, roomName, nickname) {
+    this.socket.emit(action, roomName, nickname); //action is 'join' or 'create'
   }
 
   handleAnswerSubmit(answer) {
-    this.socket.emit("answer", answer, this.state.joinedRoomId);
+    this.socket.emit("answer", answer, this.state.roomName);
+  }
+
+  handleStartGame() {
+    this.socket.emit("startGame", this.state.roomName);
   }
 
   render() {
-    const joinedRoomId =
-      this.state.joinedRoomId === ""
-        ? "Not in a room"
-        : this.state.joinedRoomId;
+    const roomName = this.state.roomName === "" ? "" : this.state.roomName;
     const { gameState, roomErrors, phase } = this.state;
     const playerId = this.socket ? this.socket.id : null;
     let prelobby, lobby, game;
@@ -80,8 +81,8 @@ class Main extends React.Component {
         <>
           <div className="room-form-container">
             <RoomForm
-              handleRoomJoin={(action, roomId, nickname) =>
-                this.handleRoomJoin(action, roomId, nickname)
+              handleRoomJoin={(action, roomName, nickname) =>
+                this.handleRoomJoin(action, roomName, nickname)
               }
             />
           </div>
@@ -91,28 +92,29 @@ class Main extends React.Component {
     } else if (phase === "lobby") {
       lobby = (
         <div>
-          <Lobby gameState={gameState} playerId={playerId} />
+          <Lobby
+            gameState={gameState}
+            playerId={playerId}
+            handleStartGame={() => this.handleStartGame()}
+          />
         </div>
       );
     } else if (phase === "game") {
       game = (
-        <>
-          <div>
-            <Game gameState={gameState} />
-          </div>
-          <div className="answer-form-container">
-            <AnswerForm
-              handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
-            />
-          </div>
-        </>
+        <div>
+          <Game
+            gameState={gameState}
+            playerId={playerId}
+            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+          />
+        </div>
       );
     }
 
     return (
       <div className="main-container">
-        <h1>Feuding Friends</h1> {/*feud logo */}
-        <h2>{joinedRoomId}</h2>
+        <img id="logo" src="logo.svg" />
+        <h2>{roomName}</h2>
         {prelobby}
         {lobby}
         {game}

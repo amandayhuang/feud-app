@@ -1,6 +1,6 @@
 :root {
-  --orange: #f56b06;
   --brown: #5f2d03;
+  --orange: #f56b06;
   --white: white;
 
   --button-bg: var(--orange);
@@ -8,16 +8,25 @@
 }
 
 h1 {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 h2 {
-    font-size: 1em;
+  font-size: 1em;
+}
+
+body {
+  background-image: linear-gradient(#b9cefd, #ebccb5);
 }
 
 button {
-    font-size: 2em;
-    width: 90%;
-    background-color: var(--button-bg);
-    color: var(--button-text);
+  background-color: var(--button-bg);
+  border-radius: 15px;
+  color: var(--button-text);
+  display: flex;
+  font-size: 22px;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px 20px;
+  width: 100%;
 }

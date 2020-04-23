@@ -1,8 +1,36 @@
+#logo {
+  margin-bottom: 100px;
+  width: 300px;
+}
+
 .main-container {
-    min-width: 320px;
-    max-width: 400px;
-    height: 100vh;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  max-width: 400px;
+  min-width: 320px;
+  padding: 10px;
+}
+
+.room-form {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+
+.room-form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-form-input {
+  border: 1px solid #bbc0c4;
+  border-radius: 3px;
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 9.1px;
+  width: 100%;
 }
