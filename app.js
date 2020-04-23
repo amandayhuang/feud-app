@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
             socket.join(roomName);
             socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
             socket.emit('joinRoom', roomName);
-            let newRoom = new Room(roomName);
+            let newRoom = new Room(roomName, io);
             newRoom.addPlayer(nickname, socket.id);
             rooms[roomName] = newRoom;
         }     
@@ -73,14 +73,9 @@ setInterval(() => {
     })
 }, 1000);
 
-const startNewRound = (roomName) => {
-    io.to(roomName).emit('startNewRound');
-}
-
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
 
-module.exports = startNewRound;
 
 // const room = new Room("hello");
 // const player1 = new Player("adam", 123);
