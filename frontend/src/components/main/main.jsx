@@ -67,9 +67,7 @@ class Main extends React.Component {
 
   render() {
     const joinedRoomId =
-      this.state.joinedRoomId === ""
-        ? "Not in a room"
-        : this.state.joinedRoomId;
+      this.state.joinedRoomId === "" ? "" : this.state.joinedRoomId;
     const { gameState, roomErrors, phase } = this.state;
     const playerId = this.socket ? this.socket.id : null;
     let prelobby, lobby, game;
@@ -110,7 +108,7 @@ class Main extends React.Component {
 
     return (
       <div className="main-container">
-        <h1>Feuding Friends</h1> {/*feud logo */}
+        <img id="logo" src="logo.svg" />
         <h2>{joinedRoomId}</h2>
         {prelobby}
         {lobby}

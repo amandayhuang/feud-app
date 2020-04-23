@@ -72,6 +72,7 @@ class RoomForm extends React.Component {
     } else if (phase === "decided") {
       enterRoomCode = (
         <input
+          className="room-form-input"
           type="text"
           placeholder="Enter room code"
           value={this.state.roomId.toUpperCase()}
@@ -81,6 +82,7 @@ class RoomForm extends React.Component {
       );
       enterNickname = (
         <input
+          className="room-form-input"
           type="text"
           placeholder="Nickname"
           value={this.state.nickname}

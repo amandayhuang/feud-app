@@ -1,8 +1,31 @@
-html, body, header, nav, h1, h2, h3, h4, h5, a,
-ul, li, strong, main, button, i,
-section, img, div, p, form,
-fieldset, label, input, textarea,
-span, article, footer, time, small {
+html,
+header,
+nav,
+h1,
+h2,
+h3,
+h4,
+h5,
+a,
+ul,
+li,
+strong,
+main,
+button,
+i,
+section,
+img,
+div,
+p,
+form,
+fieldset,
+label,
+textarea,
+span,
+article,
+footer,
+time,
+small {
   margin: 0;
   padding: 0;
   border: 0;
@@ -17,6 +40,7 @@ span, article, footer, time, small {
   background: transparent;
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   cursor: pointer;
 }
