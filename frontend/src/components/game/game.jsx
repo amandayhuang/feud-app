@@ -112,7 +112,7 @@ class Game extends React.Component {
             case "newRound":
                 newRoundContainer = (
                     <div className="new-round-container">
-                        <p>Starting new round shortly...</p>
+                        <p>Starting {phase}...</p>
                         <p>Team 1 Points: {team1points}</p>
                         <p>Team 2 Points: {team2points}</p>
                     </div>

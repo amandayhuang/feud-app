@@ -54,6 +54,7 @@ class RoomForm extends React.Component {
       chooseForm = (
         <div>
           <button
+            className="landing-buttons"
             onClick={() => {
               this.setState({ phase: "decided", action: "join" });
             }}
@@ -61,6 +62,7 @@ class RoomForm extends React.Component {
             JOIN ROOM
           </button>
           <button
+            className="landing-buttons"
             onClick={() => {
               this.setState({ phase: "decided", action: "create" });
             }}

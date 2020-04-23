@@ -19,7 +19,7 @@ class Room {
             accumulatedPoints : 0,
             roundQuestion : {},
             roundAnswers : [],
-            phase : "empty_game",
+            phase : "Start a New Game",
             teamNum: 0,
             lightningRoundCount: 0
         };

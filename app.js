@@ -73,14 +73,9 @@ setInterval(() => {
     })
 }, 1000);
 
-const startNewRound = (roomName) => {
-    io.to(roomName).emit('startNewRound');
-}
-
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
 
-module.exports = startNewRound;
 
 // const room = new Room("hello");
 // const player1 = new Player("adam", 123);
