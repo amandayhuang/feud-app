@@ -2,6 +2,7 @@ const Game = require("./game");
 const Player = require("./player");
 const Room = require("./room");
 const mongoose = require("mongoose");
+const fuzz = require('fuzzball');
 // const db = "mongodb+srv://devNaz:cQWAPKXRMQyaPCSn@cluster0-qcqag.mongodb.net/feud?retryWrites=true&w=majority";
 const db = "mongodb://devNaz:cQWAPKXRMQyaPCSn@cluster0-shard-00-00-qcqag.mongodb.net:27017,cluster0-shard-00-01-qcqag.mongodb.net:27017,cluster0-shard-00-02-qcqag.mongodb.net:27017/feud?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
 
@@ -51,3 +52,19 @@ game.setQuestion()
 
 
 
+fuzz_ratio = fuzz.ratio("new york mets", "new york meats");
+console.log(fuzz_ratio);
+
+fuzz_ratio = fuzz.ratio("hello world", "Hello World!");
+console.log(fuzz_ratio);
+
+fuzz_ratio = fuzz.partial_ratio("eating right way", "right way eating");
+console.log(fuzz_ratio);
+fuzz_ratio = fuzz.token_sort_ratio("eating right way", "right way eating");
+console.log(fuzz_ratio);
+
+fuzz_ratio = fuzz.token_set_ratio("the wonder years", "Danica McKellar the wonder years");
+console.log(fuzz_ratio);
+
+options = { wildcards: "*#" };
+console.log(fuzz.ratio('fuz*ball', 'fu**ball', options));
