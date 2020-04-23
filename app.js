@@ -36,11 +36,6 @@ io.on('connect', (socket) => {
             let newRoom = new Room(roomName);
             newRoom.addPlayer(nickname, socket.id);
             rooms[roomName] = newRoom;
-
-            newRoom.game = new Game(newRoom.players);
-            newRoom.game.setQuestion().then(() => {
-              newRoom.game.setAnswers(newRoom.game.roundQuestion.id).then(() => {});
-            });
         }     
     });
 
@@ -56,24 +51,19 @@ io.on('connect', (socket) => {
     });
 
     socket.on('startGame', roomName => {
+        console.log('Starting game')
         let room = rooms[roomName];
         room.game = new Game(room.players);
         room.game.setQuestion().then(() => {
-          room.game.setAnswers(room.game.roundQuestion.id).then(() => {
-          });
+          room.game.setAnswers(room.game.roundQuestion.id).then(() => {});
         });
-        
+        io.to(roomName).emit('setPhase', 'game');
     })
 
     socket.on('answer', (answer, roomName) => {
-        // const newAnswer = {
-        //     answer: answer,
-        //     playerId: socket.id
-        // }
-        // rooms[roomName].receiveAnswer(newAnswer);
-
+        rooms[roomName].game.receiveAnswer(answer);
         socket.emit('receiveConsoleMessage', `You answered ${answer}`);
-        socket.to(roomId).emit('receiveConsoleMessage', `Someone answered ${answer}`);
+        socket.to(roomName).emit('receiveConsoleMessage', `Someone answered ${answer}`);
     })
 });
 

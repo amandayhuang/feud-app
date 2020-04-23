@@ -43,11 +43,11 @@ class RoomForm extends React.Component {
     let chooseForm, enterRoomCode, enterNickname, roomForm;
 
     if (action === "join") {
-      buttonText = "Join Room";
-      otherButtonText = "Create Room";
+      buttonText = "JOIN ROOM";
+      otherButtonText = "CREATE ROOM";
     } else {
-      buttonText = "Create Room";
-      otherButtonText = "Join Room";
+      buttonText = "CREATE ROOM";
+      otherButtonText = "JOIN ROOM";
     }
 
     if (phase === "decision") {

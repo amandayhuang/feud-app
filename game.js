@@ -17,6 +17,7 @@ class Game {
         this.accumulatedPoints = 0;
         this.roundQuestion = {};
         this.roundAnswers = [];
+        this.phase = "round_"+this.round;
         for (var i = 0; i < players.length; i++) {
             let player = players[i];
             if (i % 2 === 0) {
@@ -43,7 +44,6 @@ class Game {
                 this.roundAnswers = answers;
             })
     }
-    //    this.fetchQuestion(this.visitedQs).then(question => this.currentQuestionId = question.id);
 
     fetchQuestion(visitedQs) {
         let randomNum = Math.floor(Math.random() * Math.floor(3923));
@@ -76,12 +76,6 @@ class Game {
         })
     }
 
-  fetchAnswers(questionId) {
-    return AnswerModel.find({
-      question_id: questionId,
-    }).then((answers) => answers);
-  }
-
     switchTeams() {
         if (this.currentTeam === this.team1) {
             this.currentTeam = this.team2;
@@ -98,7 +92,6 @@ class Game {
     }
 
     receiveAnswer(answer) {
-        let team = this.currentTeam === this.team1 ? "team1" : "team2";
         let isCorrect = false;
         let isDupe = false;
         answer = answer.toLowerCase();
@@ -108,7 +101,6 @@ class Game {
             const correctAnswer = element.answer.toLowerCase();
             if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
                 this.mentionedAnswers.push(answer);
-               
                 this.correctAnswerCount ++;
                 this.accumulatedPoints += element.points;
                 isCorrect = true;
@@ -137,12 +129,21 @@ class Game {
         // and either way if wrong or right a new round will be started after. 
     }
 
-    // resetRound() {
-    //     if (isRoundOver() && !this.isGameOver()) {
-    //         this.switchTeams();
-
-    //     }
-    // }
+    resetRound() {
+        if(this.isGameOver()){
+            this.phase = 'end_game';
+            return;
+        }
+        this.correctAnswerCount = 0;
+        this.accumulatedPoints = 0;
+        this.strikes = 0;
+        this.round += 1;
+        this.phase = "round_"+this.round;
+        this.switchTeams();
+        this.setQuestion().then(() => {
+            this.setAnswers(this.roundQuestion.id)
+        });
+    }
 
     isGameOver() {
         if (this.round === 3) {
@@ -155,26 +156,15 @@ class Game {
 
     isRoundOver() {
         if (this.correctAnswerCount === this.roundAnswers.length) {
-            this.correctAnswerCount = 0;
-            this.strikes = 0;
-            this.round += 1;
             if(this.currentTeam === this.team1){
                 this.team1Points += this.accumulatedPoints;
             }else{
                 this.team2Points += this.accumulatedPoints;
             }
-            this.accumulatedPoints = 0;
-            this.switchTeams();
-            this.setQuestion().then(() => {
-                this.setAnswers(this.roundQuestion.id)
-            })
+            this.resetRound();
             return true;
         } else if (this.strikes === 3){
-            this.correctAnswerCount = 0;
-            this.strikes = 0;
-            this.round += 1;
-            this.accumulatedPoints = 0;
-            this.switchTeams();
+            this.resetRound();
             return true;
         }
         else {
