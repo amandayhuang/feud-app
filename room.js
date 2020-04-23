@@ -46,12 +46,12 @@ class Room {
 
         return {
           players: this.players,
-          team1players: this.game.team1,
-          team2players: this.game.team2,
+          team1Players: this.game.team1,
+          team2Players: this.game.team2,
           currentTeam: this.game.currentTeam,
           question: this.game.roundQuestion.text,
-          team1points: this.game.team1Points,
-          team2points: this.game.team2Points,
+          team1Points: this.game.team1Points,
+          team2Points: this.game.team2Points,
           roundPoints: this.game.accumulatedPoints,
           currentPlayer: this.game.currentPlayer,
           strikes: this.game.strikes,
