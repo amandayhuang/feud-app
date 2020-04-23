@@ -30,6 +30,7 @@ class Main extends React.Component {
     this.handleStartGame = this.handleStartGame.bind(this);
     this.receiveOtherAnswer = this.receiveOtherAnswer.bind(this);
     this.startNewRound = this.startNewRound.bind(this);
+    this.endGame = this.endGame.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +48,7 @@ class Main extends React.Component {
       this.socket.on("setPhase", this.setPhase);
       this.socket.on("receiveOtherAnswer", this.receiveOtherAnswer);
       this.socket.on("startNewRound", this.startNewRound);
+      this.socket.on("endGame", this.endGame);
     });
   }
 
@@ -63,8 +65,17 @@ class Main extends React.Component {
   }
 
   startNewRound() {
-    this.setState({ gamePhase: 'newRound' })
-    setInterval(() => this.setState({ gamePhase: 'round'}), 5000);
+    console.log('starting new round');
+    this.setState({ gamePhase: 'newRound' });
+    setTimeout(() => {
+      this.setState({ gamePhase: 'round'});
+      console.log('returning to game');
+    }, 5000);
+  }
+
+  endGame() {
+    console.log('game over');
+    this.setState({ gamePhase: 'endGame' });
   }
 
   receiveGameState(gameState) {

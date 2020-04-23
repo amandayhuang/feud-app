@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
             socket.join(roomName);
             socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
             socket.emit('joinRoom', roomName);
-            let newRoom = new Room(roomName);
+            let newRoom = new Room(roomName, io);
             newRoom.addPlayer(nickname, socket.id);
             rooms[roomName] = newRoom;
         }     

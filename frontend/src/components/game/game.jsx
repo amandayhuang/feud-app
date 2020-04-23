@@ -40,10 +40,11 @@ class Game extends React.Component {
     }
 
     render() {
-        const { handleAnswerSubmit, playerId, gamePhase, otherAnswer } = this.props;
+        const { handleAnswerSubmit, gamePhase, otherAnswer } = this.props;
         const { 
-            question, answerBoard, scores, strikes, 
-            currentPlayer, team1players, team2players, teamNum, currentTeam,
+            question, answerBoard, roundPoints, strikes, phase,
+            currentPlayer, teamNum,
+            team1points, team2points
         } = this.props.gameState;
         
         let answerSection;
@@ -54,7 +55,7 @@ class Game extends React.Component {
                 />
         )} else {
             answerSection = (
-                <h3>{currentPlayer ? `${currentPlayer.name}\'s turn!` : ''}</h3>
+                <h3>{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
             )
         };
 
@@ -83,12 +84,14 @@ class Game extends React.Component {
             }
         });
 
-        let gameContainer, newRoundContainer, emptyContainer;
+        let gameContainer, newRoundContainer, emptyContainer, endGameContainer;
         switch (gamePhase) {
             case "round":
                 gameContainer = (
                     <div className="game-container">
+                        <div>Current phase: {phase}</div>
                         <div>Current team: {currentTeamText}</div>
+                        <div>Round points: {roundPoints}</div>
                         Question: {question}
                         <div className="answer-board">
                             {answerList}
@@ -109,7 +112,18 @@ class Game extends React.Component {
             case "newRound":
                 newRoundContainer = (
                     <div className="new-round-container">
-                        <p>Starting new round</p>
+                        <p>Starting new round shortly...</p>
+                        <p>Team 1 Points: {team1points}</p>
+                        <p>Team 2 Points: {team2points}</p>
+                    </div>
+                );
+                break;
+            case "endGame":
+                endGameContainer = (
+                    <div className="new-round-container">
+                        <p>Game over!</p>
+                        <p>Team 1 Points: {team1points}</p>
+                        <p>Team 2 Points: {team2points}</p>
                     </div>
                 );
                 break;
@@ -121,6 +135,7 @@ class Game extends React.Component {
             <>
                 { gameContainer }
                 { newRoundContainer }
+                { endGameContainer }
                 { emptyContainer }
             </>
         )

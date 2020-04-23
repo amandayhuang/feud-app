@@ -2,10 +2,10 @@ const Question = require("./question");
 const AnswerModel = require("./models/Answer");
 const QuestionModel = require("./models/Question");
 const fuzz = require('fuzzball');
-// const startNewRound = require("./util");
+const { startNewRound } = require("./app");
 
 class Game {
-    constructor(players, roomName) {
+    constructor(players, roomName, io) {
         this.visitedQs = [];
         this.players = players;
         this.team1 = [];
@@ -31,7 +31,8 @@ class Game {
         this.currentTeam = this.team1;
         this.currentPlayer = this.team1[0];
         this.teamNum = 1;
-        this.roomname = roomName;
+        this.roomName = roomName;
+        this.io = io;
 
         this.lightningRoundCount = 0;
     }
@@ -152,6 +153,7 @@ class Game {
     }
 
     lightningRound() {
+        this.io.to(this.roomName).emit('startNewRound');
         this.phase = 'lightning';
         if (this.team1Points > this.team2Points) {
             this.currentTeam = this.team1;
@@ -174,6 +176,7 @@ class Game {
     islightningRoundOver() {
         if (this.lightningRoundCount === 4) {
             this.phase = 'end_game';
+            this.io.to(this.roomName).emit('endGame');
             if (this.currentTeam === this.team1) {
                 this.team1Points += this.accumulatedPoints;
             } else {
@@ -205,7 +208,7 @@ class Game {
             this.strikes = 0;
             this.round += 1;
             this.phase = "round_"+this.round;
-            // startNewRound(this.roomName);
+            this.io.to(this.roomName).emit('startNewRound');
             this.setQuestion().then(() => {
                 this.setAnswers(this.roundQuestion.id)
             });
