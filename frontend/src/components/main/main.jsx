@@ -107,7 +107,7 @@ class Main extends React.Component {
               }
             />
           </div>
-          <div>{roomErrors}</div>
+          <div className="errors">{roomErrors}</div>
         </>
       );
     } else if (phase === "lobby") {
@@ -136,8 +136,8 @@ class Main extends React.Component {
 
     return (
       <div className="main-container">
-        <img id="logo" src="logo.svg" />
-        <h2>{roomName}</h2>
+        <img id="logo" src="logo-2x.png" />
+        <h2 className="room-name">{roomName}</h2>
         {prelobby}
         {lobby}
         {game}

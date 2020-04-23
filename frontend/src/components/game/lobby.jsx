@@ -1,41 +1,43 @@
-import React from 'react';
+import React from "react";
 
 class Lobby extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            messages: ''
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: "",
+    };
+  }
 
-    render() {
-        const { players } = this.props.gameState;
-        const { playerId, handleStartGame } = this.props;
-        const playersList = players.map(player => {
-            if (player.id === playerId) {
-                return (
-                    <li key={player.id}>
-                        <b>{player.name}</b>
-                    </li>
-                )
-            } else {
-                return (
-                    <li key={player.id}>
-                        {player.name}
-                    </li>
-                )
-            }
-        })
+  render() {
+    const { players } = this.props.gameState;
+    const { playerId, handleStartGame } = this.props;
+    const playersList = players.map((player) => {
+      if (player.id === playerId) {
         return (
-            <div className="lobby-player-container">
-                Players in lobby:
-                <ul>
-                    {playersList}
-                </ul>
-                <button onClick={handleStartGame}>Start Game</button>
-            </div>
-        )
-    }
+          <li className="player-item" key={player.id}>
+            <b>{player.name}</b>
+          </li>
+        );
+      } else {
+        return (
+          <li className="player-item" key={player.id}>
+            {player.name}
+          </li>
+        );
+      }
+    });
+    return (
+      <div className="lobby-player-container">
+        <div className="players-list-container">
+          <span className="lobby-title">Players in Lobby</span>
+          <ul className="players-list">{playersList}</ul>
+        </div>
+        <button className="start-button" onClick={handleStartGame}>
+          Start Game
+        </button>
+      </div>
+    );
+  }
 }
 
 export default Lobby;
