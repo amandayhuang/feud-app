@@ -71,10 +71,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const roomName =
-      this.state.roomName === ""
-        ? "Not in a room"
-        : this.state.roomName;
+    const roomName = this.state.roomName === "" ? "" : this.state.roomName;
     const { gameState, roomErrors, phase } = this.state;
     const playerId = this.socket ? this.socket.id : null;
     let prelobby, lobby, game;
@@ -95,24 +92,28 @@ class Main extends React.Component {
     } else if (phase === "lobby") {
       lobby = (
         <div>
-          <Lobby gameState={gameState} playerId={playerId} handleStartGame={() => this.handleStartGame()} />
+          <Lobby
+            gameState={gameState}
+            playerId={playerId}
+            handleStartGame={() => this.handleStartGame()}
+          />
         </div>
       );
     } else if (phase === "game") {
       game = (
-          <div>
-            <Game 
-              gameState={gameState} 
-              playerId={playerId}
-              handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
-            />
-          </div>
+        <div>
+          <Game
+            gameState={gameState}
+            playerId={playerId}
+            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+          />
+        </div>
       );
     }
 
     return (
       <div className="main-container">
-        <h1>Feuding Friends</h1> {/*feud logo */}
+        <img id="logo" src="logo.svg" />
         <h2>{roomName}</h2>
         {prelobby}
         {lobby}
