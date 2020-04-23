@@ -28,6 +28,7 @@ class Game {
         }
         this.currentTeam = this.team1;
         this.currentPlayer = this.team1[0];
+        this.teamNum = 1;
 
     }
     
@@ -52,8 +53,8 @@ class Game {
         }
 
         return QuestionModel.find({
-            // id: randomNum
-            id: 3072 //for testing
+            id: randomNum
+            // id: 3072 //for testing
         })
         .then(question => {
             return question[0];
@@ -79,10 +80,12 @@ class Game {
     switchTeams() {
         if (this.currentTeam === this.team1) {
             this.currentTeam = this.team2;
+            this.teamNum = 2;
             this.currentPlayer = this.team2[0];
         } else {
             this.currentTeam = this.team1;
             this.currentPlayer = this.team1[0];
+            this.teamNum = 1;
         }
     }
 
