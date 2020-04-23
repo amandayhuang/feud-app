@@ -29,7 +29,7 @@ class Game {
         this.currentTeam = this.team1;
         this.currentPlayer = this.team1[0];
         this.teamNum = 1;
-
+        this.lightningRoundCount = 0;
     }
     
     setQuestion() {
@@ -134,52 +134,56 @@ class Game {
 
         if(this.phase === 'steal'){
             this.resetRound();
-        }else{
+        }
+        else if (this.phase === 'lightning'){
+            this.islightningRoundOver();
+        }
+        else{
             this.switchTurns();
             this.isRoundOver();
         }
         return isCorrect;
     }
 
-    // receiveStealAnswer(answer) {
-    //     let isCorrect = false;
-    //     let isDupe = false;
-    //     answer = answer.toLowerCase();
-    //     for (let i = 0; i < this.roundAnswers.length; i++) {
-    //         const element = this.roundAnswers[i];
-    //         const correctAnswer = element.answer.toLowerCase();
-    //         if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)) {
-    //             this.mentionedAnswers.push(answer);
-    //             this.correctAnswerCount++;
-    //             this.accumulatedPoints += element.points;
-    //             isCorrect = true;
-    //             console.log("correct answer");
-    //         }
-    //         else if (this.mentionedAnswers.includes(answer)) {
-    //             isDupe = true;
-    //         }
-    //     }
+    lightningRound() {
+        this.phase = 'lightning';
+        if (this.team1Points > this.team2Points) {
+            this.currentTeam = this.team1;
+            this.teamNum = 1;
+            this.currentPlayer = this.team1[0];
+        } else {
+            this.currentPlayer = this.team2[0];
+            this.teamNum = 2;
+            this.currentTeam = this.team2;
+        }
+        this.correctAnswerCount = 0;
+        this.accumulatedPoints = 0;
+        this.strikes = 0;
+        this.round += 1;
+        this.setQuestion().then(() => {
+            this.setAnswers(this.roundQuestion.id)
+        });
+    }
 
-    //     if (isCorrect === false && isDupe === false) {
-    //         console.log("incorrect answer");
-    //     }
-
-     
-    //     return isCorrect;
-    // }
-    
+    islightningRoundOver() {
+        if (this.lightningRoundCount === 4) {
+            this.phase = 'end_game';
+            if (this.currentTeam === this.team1) {
+                this.team1Points += this.accumulatedPoints;
+            } else {
+                this.team2Points += this.accumulatedPoints;
+            }
+        } else {
+            this.lightningRoundCount++;
+            this.setQuestion().then(() => {
+                this.setAnswers(this.roundQuestion.id)
+            });
+        }
+    }
 
     stealRound() {
      this.phase = "steal";
      this.switchTeams();
-        // if (this.phase === ) {
-        //     if (this.currentTeam === team1) {
-        //         this.team1Points += this.accumulatedPoints;
-        //     } else {
-        //         this.team2Points += this.accumulatedPoints;
-        //     }
-        // }
-        // this.resetRound();
     }
 
     resetRound() {
@@ -188,16 +192,17 @@ class Game {
         }
         if(this.isGameOver()){
             this.phase = 'end_game';
-            return;
+            this.lightningRound();
+        }else{
+            this.correctAnswerCount = 0;
+            this.accumulatedPoints = 0;
+            this.strikes = 0;
+            this.round += 1;
+            this.phase = "round_"+this.round;
+            this.setQuestion().then(() => {
+                this.setAnswers(this.roundQuestion.id)
+            });
         }
-        this.correctAnswerCount = 0;
-        this.accumulatedPoints = 0;
-        this.strikes = 0;
-        this.round += 1;
-        this.phase = "round_"+this.round;
-        this.setQuestion().then(() => {
-            this.setAnswers(this.roundQuestion.id)
-        });
     }
 
     isGameOver() {
