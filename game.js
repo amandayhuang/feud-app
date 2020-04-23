@@ -104,7 +104,7 @@ class Game {
             const correctAnswer = element.answer.toLowerCase();
 
             if(this.phase === 'steal'){
-                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
+                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer) && isCorrect === false){
                     if (this.currentTeam === this.team1) {
                         this.team1Points += this.accumulatedPoints;
                     } else {
@@ -114,7 +114,7 @@ class Game {
                     isCorrect = true;
                 }
             }else{
-                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
+                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer) && isCorrect === false){
                     this.mentionedAnswers.push(answer);
                     this.correctAnswerCount ++;
                     this.accumulatedPoints += element.points;
