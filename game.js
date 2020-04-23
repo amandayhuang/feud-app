@@ -1,6 +1,7 @@
 const Question = require("./question");
 const AnswerModel = require("./models/Answer");
 const QuestionModel = require("./models/Question");
+const fuzz = require('fuzzball');
 
 class Game {
     constructor(players) {
@@ -98,13 +99,15 @@ class Game {
         let isCorrect = false;
         let isDupe = false;
         answer = answer.toLowerCase();
-
+        
+        
         for (let i = 0; i < this.roundAnswers.length; i++) {
             const element = this.roundAnswers[i];
             const correctAnswer = element.answer.toLowerCase();
-
+            
+            let fuzz_ratio = fuzz.ratio(answer, correctAnswer);
             if(this.phase === 'steal'){
-                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
+                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(answer)){
                     if (this.currentTeam === this.team1) {
                         this.team1Points += this.accumulatedPoints;
                     } else {
@@ -114,8 +117,8 @@ class Game {
                     isCorrect = true;
                 }
             }else{
-                if (answer === correctAnswer && !this.mentionedAnswers.includes(answer)){
-                    this.mentionedAnswers.push(answer);
+                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(answer)){
+                    this.mentionedAnswers.push(correctAnswer);
                     this.correctAnswerCount ++;
                     this.accumulatedPoints += element.points;
                     isCorrect = true;
