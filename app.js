@@ -62,6 +62,7 @@ io.on('connect', (socket) => {
 
     socket.on('answer', (answer, roomName) => {
         rooms[roomName].game.receiveAnswer(answer);
+        socket.to(roomName).emit('receiveOtherAnswer', socket.id, answer);
         socket.emit('receiveConsoleMessage', `You answered ${answer}`);
         socket.to(roomName).emit('receiveConsoleMessage', `Someone answered ${answer}`);
     })

@@ -15,18 +15,21 @@ class Main extends React.Component {
         players: [],
       },
       roomErrors: "",
+      gameErrors: "",
+      otherAnswer: null,
       phase: "prelobby",
     };
     this.socket = null;
+    this.otherAnswerTimer = null;
     this.receiveGameState = this.receiveGameState.bind(this);
     this.receiveRoomError = this.receiveRoomError.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.setPhase = this.setPhase.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
+    this.receiveOtherAnswer = this.receiveOtherAnswer.bind(this);
   }
 
   componentDidMount() {
-    //the URL passed to io when setting this up needs to change based on environment
     this.socket = io(HOST);
     this.socket.on("connect", (socket) => {
       console.log("Frontend connected! Socket id: " + this.socket.id);
@@ -39,6 +42,7 @@ class Main extends React.Component {
       this.socket.on("receiveRoomError", this.receiveRoomError);
       this.socket.on("joinRoom", this.joinRoom);
       this.socket.on("setPhase", this.setPhase);
+      this.socket.on("receiveOtherAnswer", this.receiveOtherAnswer);
     });
   }
 
@@ -58,6 +62,14 @@ class Main extends React.Component {
     this.setState({ gameState: gameState });
   }
 
+  receiveOtherAnswer(playerId, answer) {
+    if (this.otherAnswerTimer) {
+      clearInterval(this.otherAnswerTimer);
+    }
+    this.otherAnswerTimer = setInterval(() => this.setState({ otherAnswer: null }), 3000);
+    this.setState({ otherAnswer: { playerId, answer }});
+  }
+
   handleRoomJoin(action, roomName, nickname) {
     this.socket.emit(action, roomName, nickname); //action is 'join' or 'create'
   }
@@ -72,7 +84,7 @@ class Main extends React.Component {
 
   render() {
     const roomName = this.state.roomName === "" ? "" : this.state.roomName;
-    const { gameState, roomErrors, phase } = this.state;
+    const { gameState, roomErrors, phase, otherAnswer } = this.state;
     const playerId = this.socket ? this.socket.id : null;
     let prelobby, lobby, game;
 
@@ -106,6 +118,7 @@ class Main extends React.Component {
             gameState={gameState}
             playerId={playerId}
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            otherAnswer={otherAnswer}
           />
         </div>
       );
