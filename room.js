@@ -18,6 +18,7 @@ class Room {
             accumulatedPoints : 0,
             roundQuestion : {},
             roundAnswers : [],
+            phase : "empty_game"
         };
         this.players = [];
     }
@@ -27,9 +28,6 @@ class Room {
     }
 
     getGameState(){
-        //refers to this.game 
-        // team scores
-        // current players 
         let answerBoard = [];
         for (let i = 0; i < this.game.roundAnswers.length; i++) {
             const element = this.game.roundAnswers[i];
@@ -58,6 +56,8 @@ class Room {
           currentPlayer: this.game.currentPlayer,
           strikes: this.game.strikes,
           answerBoard: answerBoard,
+          round: this.game.round,
+          phase: this.game.phase
         };
     }
 
