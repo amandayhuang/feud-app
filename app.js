@@ -53,7 +53,7 @@ io.on('connect', (socket) => {
     socket.on('startGame', roomName => {
         console.log('Starting game')
         let room = rooms[roomName];
-        room.game = new Game(room.players);
+        room.game = new Game(room.players, roomName);
         room.game.setQuestion().then(() => {
           room.game.setAnswers(room.game.roundQuestion.id).then(() => {});
         });
@@ -78,8 +78,14 @@ setInterval(() => {
     })
 }, 1000);
 
+const startNewRound = (roomName) => {
+    io.to(roomName).emit('startNewRound');
+}
+
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
+
+module.exports = startNewRound;
 
 // const room = new Room("hello");
 // const player1 = new Player("adam", 123);

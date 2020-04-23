@@ -1,9 +1,10 @@
 const Question = require("./question");
 const AnswerModel = require("./models/Answer");
 const QuestionModel = require("./models/Question");
+// const startNewRound = require("./util");
 
 class Game {
-    constructor(players) {
+    constructor(players, roomName) {
         this.visitedQs = [];
         this.players = players;
         this.team1 = [];
@@ -29,6 +30,7 @@ class Game {
         this.currentTeam = this.team1;
         this.currentPlayer = this.team1[0];
         this.teamNum = 1;
+        this.roomname = roomName;
 
     }
     
@@ -195,6 +197,7 @@ class Game {
         this.strikes = 0;
         this.round += 1;
         this.phase = "round_"+this.round;
+        startNewRound(this.roomName);
         this.setQuestion().then(() => {
             this.setAnswers(this.roundQuestion.id)
         });

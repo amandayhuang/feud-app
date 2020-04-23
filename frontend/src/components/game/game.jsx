@@ -6,7 +6,7 @@ class Game extends React.Component {
         super(props);
         this.state = {
             messages: '',
-            cheat: false
+            cheat: false,
         }
     }
 
@@ -40,7 +40,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { handleAnswerSubmit, playerId, otherAnswer } = this.props;
+        const { handleAnswerSubmit, playerId, gamePhase, otherAnswer } = this.props;
         const { 
             question, answerBoard, scores, strikes, 
             currentPlayer, team1players, team2players, teamNum, currentTeam,
@@ -83,25 +83,45 @@ class Game extends React.Component {
             }
         });
 
+        let gameContainer, newRoundContainer, emptyContainer;
+        switch (gamePhase) {
+            case "round":
+                gameContainer = (
+                    <div className="game-container">
+                        <div>Current team: {currentTeamText}</div>
+                        Question: {question}
+                        <div className="answer-board">
+                            {answerList}
+                        </div>
+                        <div>Strikes: {strikes}</div>
+                        <div className="answer-form-container">
+                            {answerSection}
+                        </div>
+                        <div>
+                            {otherPlayerAnswerSection}
+                        </div>
+                        <div>
+                            <button onClick={() => this.toggleCheat()}>Toggle Cheat</button>
+                        </div>
+                    </div>
+                );
+                break;
+            case "newRound":
+                newRoundContainer = (
+                    <div className="new-round-container">
+                        <p>Starting new round</p>
+                    </div>
+                );
+                break;
+            default:
+                emptyContainer = (<div>Loading...</div>)
+        }
+
         return (
             <>
-                <div className="game-container">
-                    <div>Current team: {currentTeamText}</div>
-                    Question: {question}
-                    <div className="answer-board">
-                        {answerList}
-                    </div>
-                    <div>Strikes: {strikes}</div>
-                </div>
-                <div className="answer-form-container"> 
-                    { answerSection }
-                </div>
-                <div>
-                    { otherPlayerAnswerSection }
-                </div>
-                <div>
-                    <button onClick={() => this.toggleCheat()}>Toggle Cheat</button>
-                </div>
+                { gameContainer }
+                { newRoundContainer }
+                { emptyContainer }
             </>
         )
     }
