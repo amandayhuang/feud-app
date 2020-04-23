@@ -20,6 +20,16 @@ class Game extends React.Component {
         }
     }
 
+    findPlayerById(playerId) {
+        const { team1players, team2players } = this.props.gameState;
+        const allPlayers = team1players.concat(team2players);
+        let playerFound;
+        allPlayers.forEach(player => {
+            if (player.id === playerId) playerFound = player;
+        });
+        return playerFound;
+    }
+
     // isMyTeamsTurn() {
     //     const { }
     // }
@@ -30,12 +40,12 @@ class Game extends React.Component {
     }
 
     render() {
-        const { handleAnswerSubmit, playerId } = this.props;
+        const { handleAnswerSubmit, playerId, otherAnswer } = this.props;
         const { 
             question, answerBoard, scores, strikes, 
-            currentPlayer, team1players, team2players, currentTeam
+            currentPlayer, team1players, team2players, teamNum, currentTeam,
         } = this.props.gameState;
-
+        
         let answerSection;
         if (this.isMyTurn()) {
             answerSection = (
@@ -44,16 +54,18 @@ class Game extends React.Component {
                 />
         )} else {
             answerSection = (
-                <h3>{ currentPlayer ? `${currentPlayer.name}\'s turn!` : ''}</h3>
+                <h3>{currentPlayer ? `${currentPlayer.name}\'s turn!` : ''}</h3>
             )
         };
 
-        let currentTeamText;
-        if (currentTeam && currentTeam === team1players) {
-            currentTeamText = "Team 1";
-        } else {
-            currentTeamText = "Team 2";
+        let otherPlayerAnswerSection;
+        if (otherAnswer) {
+            otherPlayerAnswerSection = (
+                <h3>{`${this.findPlayerById(otherAnswer.playerId).name} said ${otherAnswer.answer}!`}</h3>
+            )
         }
+
+        const currentTeamText = teamNum ? `Team ${teamNum}` : '';
 
         const answerList = answerBoard.map(answer => {
             if (this.state.cheat) {
@@ -83,6 +95,9 @@ class Game extends React.Component {
                 </div>
                 <div className="answer-form-container"> 
                     { answerSection }
+                </div>
+                <div>
+                    { otherPlayerAnswerSection }
                 </div>
                 <div>
                     <button onClick={() => this.toggleCheat()}>Toggle Cheat</button>
