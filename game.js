@@ -19,7 +19,7 @@ class Game {
         this.accumulatedPoints = 0;
         this.roundQuestion = {};
         this.roundAnswers = [];
-        this.phase = "round_"+this.round;
+        this.phase = "Round "+this.round;
         for (var i = 0; i < players.length; i++) {
             let player = players[i];
             if (i % 2 === 0) {
@@ -82,7 +82,7 @@ class Game {
     }
 
     switchTeams() {
-        if (this.currentTeam === this.team1) {
+        if (this.teamNum === 1) {
             this.currentTeam = this.team2;
             this.teamNum = 2;
             this.currentPlayer = this.team2[0];
@@ -109,9 +109,9 @@ class Game {
             
             let fuzz_ratio = fuzz.ratio(answer, correctAnswer);
 
-            if(this.phase === 'steal'){
+            if(this.phase === 'Steal the Round!'){
                 if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(answer) && isCorrect === false) {
-                    if (this.currentTeam === this.team1) {
+                    if (this.teamNum === 1) {
                         this.team1Points += this.accumulatedPoints;
                     } else {
                         this.team2Points += this.accumulatedPoints;
@@ -131,6 +131,7 @@ class Game {
                     isDupe = true;
                 }
             }
+            console.log(`t1: ${this.team1Points} t2: ${this.team2Points}`);
         }
 
         if(isCorrect === false && isDupe === false){
@@ -138,10 +139,10 @@ class Game {
             console.log("incorrect answer");
         }
 
-        if(this.phase === 'steal'){
+        if(this.phase === 'Steal the Round!'){
             this.resetRound();
         }
-        else if (this.phase === 'lightning'){
+        else if (this.phase === 'Lightning Round'){
             this.islightningRoundOver();
         }
         else{
@@ -152,7 +153,7 @@ class Game {
     }
 
     lightningRound() {
-        this.phase = 'lightning';
+        this.phase = 'Lightning Round';
         if (this.team1Points > this.team2Points) {
             this.currentTeam = this.team1;
             this.teamNum = 1;
@@ -173,12 +174,13 @@ class Game {
 
     islightningRoundOver() {
         if (this.lightningRoundCount === 4) {
-            this.phase = 'end_game';
-            if (this.currentTeam === this.team1) {
+            if (this.teamNum === 1) {
                 this.team1Points += this.accumulatedPoints;
             } else {
                 this.team2Points += this.accumulatedPoints;
             }
+            this.accumulatedPoints = 0;
+            this.phase = 'Game Over';
         } else {
             this.lightningRoundCount++;
             this.setQuestion().then(() => {
@@ -188,12 +190,12 @@ class Game {
     }
 
     stealRound() {
-     this.phase = "steal";
+    this.phase = "Steal the Round!";
      this.switchTeams();
     }
 
     resetRound() {
-        if(this.phase !== 'steal'){
+        if(this.phase !== 'Steal the Round!'){
             this.switchTeams();
         }
         if(this.isGameOver()){
@@ -203,7 +205,7 @@ class Game {
             this.accumulatedPoints = 0;
             this.strikes = 0;
             this.round += 1;
-            this.phase = "round_"+this.round;
+            this.phase = "Round "+this.round;
             // startNewRound(this.roomName);
             this.setQuestion().then(() => {
                 this.setAnswers(this.roundQuestion.id)
@@ -222,7 +224,7 @@ class Game {
 
     isRoundOver() {
         if (this.correctAnswerCount === this.roundAnswers.length) {
-            if(this.currentTeam === this.team1){
+            if(this.teamNum === 1){
                 this.team1Points += this.accumulatedPoints;
             }else{
                 this.team2Points += this.accumulatedPoints;
