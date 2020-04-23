@@ -197,7 +197,6 @@ class Game {
             this.switchTeams();
         }
         if(this.isGameOver()){
-            this.phase = 'end_game';
             this.lightningRound();
         }else{
             this.correctAnswerCount = 0;
