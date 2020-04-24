@@ -110,6 +110,7 @@ class Game {
 
             if(this.phase === 'Steal the Round!'){
                 if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false) {
+                    this.mentionedAnswers.push(correctAnswer);
                     this.accumulatedPoints += element.points;
                     if (this.teamNum === 1) {
                         this.team1Points += this.accumulatedPoints;
