@@ -70,14 +70,20 @@ class Game extends React.Component {
 
     createOtherPlayerAnswerSection(otherAnswer) {
         if (otherAnswer) {
-            return (
-                <h3>{`${this.findPlayerById(otherAnswer.playerId).name} said ${otherAnswer.answer}!`}</h3>
-            )
+            if (otherAnswer.answer === "") {
+                return (
+                    <h3>{`${this.findPlayerById(otherAnswer.playerId).name} didn't answer!`}</h3>
+                )
+            } else {
+                return (
+                    <h3>{`${this.findPlayerById(otherAnswer.playerId).name} said ${otherAnswer.answer}!`}</h3>
+                )
+            }
         }
     }
 
     createAnswerList(answerBoard) {
-        return answerBoard.map(answer => {
+        return answerBoard.map((answer, idx) => {
             if (this.state.cheat) {
                 return (
                     <button>
@@ -87,7 +93,7 @@ class Game extends React.Component {
             } else {
                 return (
                     <button>
-                        {answer.isRevealed ? `${answer.answer}` : ' '}
+                        {answer.isRevealed ? `${answer.answer}` : `${idx + 1}`}
                     </button>
                 )
             }
@@ -112,6 +118,7 @@ class Game extends React.Component {
         let gameContainer, newRoundContainer, emptyContainer, endGameContainer;
         switch (gamePhase) {
             case "round":
+            case "endRound":
                 gameContainer = (
                     <div className="game-container">
                         <div>Current phase: {phase}</div>
@@ -123,7 +130,7 @@ class Game extends React.Component {
                         </div>
                         <div>{strikesList}</div>
                         <div className="answer-form-container">
-                            {answerSection}
+                            { gamePhase === "round" ? answerSection : "" }
                         </div>
                         <div>
                             {otherPlayerAnswerSection}
