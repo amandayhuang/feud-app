@@ -98,7 +98,9 @@ class RoomForm extends React.Component {
           <form onSubmit={this.handleRoomJoin} className="room-form">
             {enterRoomCode}
             {enterNickname}
-            <button type="submit">{buttonText}</button>
+            <button className="form-submit-button" type="submit">
+              {buttonText}
+            </button>
           </form>
           <button onClick={this.switchForm}>Or {otherButtonText}...</button>
         </>
