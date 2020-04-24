@@ -2,6 +2,7 @@ const Question = require("./question");
 const AnswerModel = require("./models/Answer");
 const QuestionModel = require("./models/Question");
 const fuzz = require('fuzzball');
+const FUZZ_THRESHOLD = 56;
 
 class Game {
     constructor(players, roomName, io) {
@@ -113,7 +114,7 @@ class Game {
             let fuzz_ratio = fuzz.ratio(answer, correctAnswer);
 
             if(this.phase === 'Steal the Round!'){
-                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false) {
+                if ((fuzz_ratio >= FUZZ_THRESHOLD) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false) {
                     this.mentionedAnswers.push(correctAnswer);
                     this.accumulatedPoints += element.points;
                     if (this.teamNum === 1) {
@@ -125,7 +126,7 @@ class Game {
                     isCorrect = true;
                 }
             }else{
-                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false){
+                if ((fuzz_ratio >= FUZZ_THRESHOLD) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false){
                     this.mentionedAnswers.push(correctAnswer);
                     this.correctAnswerCount ++;
                     this.accumulatedPoints += element.points;
@@ -194,8 +195,10 @@ class Game {
             this.io.to(this.roomName).emit('endGame');
             this.phase = 'Game Over';
         } else {
+            this.phase = 'Reveal';
             this.io.to(this.roomName).emit('pauseLightning');
             setTimeout(() => {
+                this.phase = 'Lightning Round';
                 this.lightningRoundCount++;
                 this.mentionedAnswers = [];
                 this.strikes = 0;
@@ -221,6 +224,7 @@ class Game {
                 this.lightningRound();
             }, 2000);
         }else{
+            this.phase='Reveal';
             this.io.to(this.roomName).emit('endRound');
             setTimeout(() => {
                 this.correctAnswerCount = 0;
