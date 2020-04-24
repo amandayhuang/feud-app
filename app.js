@@ -68,10 +68,9 @@ setInterval(() => {
     Object.keys(rooms).forEach(roomName => {
         const room = rooms[roomName];
         let newGameState = room.getGameState();
-        // io.to(room.roomName).emit('receiveConsoleMessage', `Here is your update for room ${room.roomName}`);
         io.to(room.roomName).emit('receiveGameState', newGameState);
     })
-}, 1000);
+}, 200);
 
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
