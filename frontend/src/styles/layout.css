@@ -2,9 +2,10 @@
   --brown: #5f2d03;
   --orange: #f56b06;
   --white: white;
-
+  --yellow: #fff5a7;
   --button-bg: var(--orange);
   --button-text: var(--white);
+  --button-gradient: linear-gradient(#0055c4, #003677);
 }
 
 h1 {
@@ -21,7 +22,7 @@ body {
 
 button {
   background-color: var(--button-bg);
-  border-radius: 15px;
+  border-radius: 20px;
   color: var(--button-text);
   display: flex;
   font-size: 22px;
