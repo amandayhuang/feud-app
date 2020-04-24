@@ -5,7 +5,7 @@ const fuzz = require('fuzzball');
 class SoloGame {
     constructor(roomName, io) {
         this.visitedQs = [];
-        this.round = 1;
+        this.round = 0;
         this.strikes = 0;
         this.correctAnswerCount = 0;
         this.mentionedAnswers = [];
@@ -39,13 +39,15 @@ class SoloGame {
             randomNum = Math.floor(Math.random() * Math.floor(3923));
         }
 
+        visitedQs.push(randomNum);
+
         return QuestionModel.find({
             id: randomNum
             // id: 1739 //for testing
         })
-            .then(question => {
-                return question[0];
-            })
+        .then(question => {
+            return question[0];
+        })
 
     }
 
