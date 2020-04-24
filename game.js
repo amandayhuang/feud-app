@@ -58,7 +58,7 @@ class Game {
 
         return QuestionModel.find({
             id: randomNum
-            // id: 3072 //for testing
+            // id: 1739 //for testing
         })
         .then(question => {
             return question[0];
@@ -100,7 +100,6 @@ class Game {
 
     receiveAnswer(answer) {
         let isCorrect = false;
-        let isDupe = false;
         answer = answer.toLowerCase();
 
         for (let i = 0; i < this.roundAnswers.length; i++) {
@@ -110,7 +109,8 @@ class Game {
             let fuzz_ratio = fuzz.ratio(answer, correctAnswer);
 
             if(this.phase === 'Steal the Round!'){
-                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(answer) && isCorrect === false) {
+                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false) {
+                    this.accumulatedPoints += element.points;
                     if (this.teamNum === 1) {
                         this.team1Points += this.accumulatedPoints;
                     } else {
@@ -120,26 +120,30 @@ class Game {
                     isCorrect = true;
                 }
             }else{
-                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(answer) && isCorrect === false){
+                if ((fuzz_ratio >= 50) && !this.mentionedAnswers.includes(correctAnswer) && isCorrect === false){
                     this.mentionedAnswers.push(correctAnswer);
                     this.correctAnswerCount ++;
                     this.accumulatedPoints += element.points;
                     isCorrect = true;
                     console.log("correct answer");
                 }
-                else if(this.mentionedAnswers.includes(answer)){
-                    isDupe = true;
-                }
             }
-            console.log(`t1: ${this.team1Points} t2: ${this.team2Points}`);
         }
 
-        if(isCorrect === false && isDupe === false){
+        if(isCorrect === false){
             this.strikes ++;
             console.log("incorrect answer");
         }
 
-        if(this.phase === 'Steal the Round!'){
+        if(this.phase === 'Steal the Round!' && isCorrect === false){
+            if (this.teamNum === 1) {
+                this.team2Points += this.accumulatedPoints;
+            } else {
+                this.team1Points += this.accumulatedPoints;
+            } 
+            this.resetRound();
+        }
+        else if (this.phase === 'Steal the Round!' && isCorrect === true) {
             this.resetRound();
         }
         else if (this.phase === 'Lightning Round'){
@@ -168,6 +172,7 @@ class Game {
         this.accumulatedPoints = 0;
         this.strikes = 0;
         this.round += 1;
+        this.mentionedAnswers = [];
         this.setQuestion().then(() => {
             this.setAnswers(this.roundQuestion.id)
         });
@@ -185,6 +190,7 @@ class Game {
             this.phase = 'Game Over';
         } else {
             this.lightningRoundCount++;
+            this.mentionedAnswers = [];
             this.setQuestion().then(() => {
                 this.setAnswers(this.roundQuestion.id)
             });
@@ -193,7 +199,7 @@ class Game {
 
     stealRound() {
     this.phase = "Steal the Round!";
-     this.switchTeams();
+    this.switchTeams();
     }
 
     resetRound() {
@@ -211,7 +217,7 @@ class Game {
                 this.accumulatedPoints = 0;
                 this.strikes = 0;
                 this.round += 1;
-                // this.io.to(this.roomName).emit('startNewRound');
+                this.mentionedAnswers = [];
                 this.phase = "Round " + this.round;
                 this.setQuestion().then(() => {
                     this.setAnswers(this.roundQuestion.id)
