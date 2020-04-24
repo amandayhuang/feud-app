@@ -119,6 +119,7 @@ class Game extends React.Component {
         switch (gamePhase) {
             case "round":
             case "endRound":
+            case "pauseLightning":
                 gameContainer = (
                     <div className="game-container">
                         <div className="game-phase">{phase}</div>
@@ -136,7 +137,7 @@ class Game extends React.Component {
                             {otherPlayerAnswerSection}
                         </div>
                         <div>
-                            <button onClick={() => this.toggleCheat()}>Toggle Cheat</button>
+                            <button onClick={() => this.toggleCheat()}></button>
                         </div>
                     </div>
                 );
