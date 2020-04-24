@@ -30,45 +30,54 @@ class Game extends React.Component {
         return playerFound;
     }
 
-    // isMyTeamsTurn() {
-    //     const { }
-    // }
-
     toggleCheat() {
         const cheat = this.state.cheat;
         this.setState({ cheat: !cheat });
     }
 
-    render() {
-        const { handleAnswerSubmit, gamePhase, otherAnswer } = this.props;
-        const { 
-            question, answerBoard, roundPoints, strikes, phase,
-            currentPlayer, teamNum,
-            team1points, team2points
-        } = this.props.gameState;
-        
-        let answerSection;
+    createStrikesList(strikes) {
+        const strikesList = [];
+        for (let i = 0; i < strikes; i++) {
+            strikesList.push(
+                <li>
+                    [ X ]
+                </li>
+            )
+        };
+        for (let i = 0; i < 3 - strikes; i++) {
+            strikesList.push(
+                <li>
+                    [   ]
+                </li>
+            )
+        }
+        return strikesList.slice(0, 3);
+    }
+
+    createAnswerSection(handleAnswerSubmit, currentPlayer) {
         if (this.isMyTurn()) {
-            answerSection = (
+            return (
                 <AnswerForm
                     handleAnswerSubmit={(answer) => handleAnswerSubmit(answer)}
                 />
-        )} else {
-            answerSection = (
+            )
+        } else {
+            return (
                 <h3>{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
             )
         };
+    }
 
-        let otherPlayerAnswerSection;
+    createOtherPlayerAnswerSection(otherAnswer) {
         if (otherAnswer) {
-            otherPlayerAnswerSection = (
+            return (
                 <h3>{`${this.findPlayerById(otherAnswer.playerId).name} said ${otherAnswer.answer}!`}</h3>
             )
         }
+    }
 
-        const currentTeamText = teamNum ? `Team ${teamNum}` : '';
-
-        const answerList = answerBoard.map(answer => {
+    createAnswerList(answerBoard) {
+        return answerBoard.map(answer => {
             if (this.state.cheat) {
                 return (
                     <button>
@@ -79,10 +88,26 @@ class Game extends React.Component {
                 return (
                     <button>
                         {answer.isRevealed ? `${answer.answer}` : ' '}
-                    </button> 
+                    </button>
                 )
             }
         });
+    }
+
+    setContainers() {
+        const { handleAnswerSubmit, gamePhase, otherAnswer } = this.props;
+        const {
+            question, answerBoard, roundPoints, strikes, phase,
+            currentPlayer, teamNum,
+            team1points, team2points
+        } = this.props.gameState;
+
+        const currentTeamText = teamNum ? `Team ${teamNum}` : '';
+        
+        const strikesList = this.createStrikesList(strikes);
+        const answerSection = this.createAnswerSection(handleAnswerSubmit, currentPlayer);
+        const otherPlayerAnswerSection = this.createOtherPlayerAnswerSection(otherAnswer);
+        const answerList = this.createAnswerList(answerBoard);
 
         let gameContainer, newRoundContainer, emptyContainer, endGameContainer;
         switch (gamePhase) {
@@ -96,7 +121,7 @@ class Game extends React.Component {
                         <div className="answer-board">
                             {answerList}
                         </div>
-                        <div>Strikes: {strikes}</div>
+                        <div>{strikesList}</div>
                         <div className="answer-form-container">
                             {answerSection}
                         </div>
@@ -130,7 +155,12 @@ class Game extends React.Component {
             default:
                 emptyContainer = (<div>Loading...</div>)
         }
+        return { gameContainer, newRoundContainer, emptyContainer, endGameContainer };
+    }
 
+    render() {
+        const { gameContainer, newRoundContainer, emptyContainer, endGameContainer } = this.setContainers();
+        
         return (
             <>
                 { gameContainer }

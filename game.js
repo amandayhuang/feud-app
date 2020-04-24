@@ -201,17 +201,21 @@ class Game {
             this.switchTeams();
         }
         if(this.isGameOver()){
-            this.lightningRound();
+            setTimeout(() => {
+                this.lightningRound();
+            }, 2000);
         }else{
-            this.correctAnswerCount = 0;
-            this.accumulatedPoints = 0;
-            this.strikes = 0;
-            this.round += 1;
-            this.io.to(this.roomName).emit('startNewRound');
-            this.phase = "Round "+this.round;
-            this.setQuestion().then(() => {
-                this.setAnswers(this.roundQuestion.id)
-            });
+            setTimeout(() => {
+                this.correctAnswerCount = 0;
+                this.accumulatedPoints = 0;
+                this.strikes = 0;
+                this.round += 1;
+                this.io.to(this.roomName).emit('startNewRound');
+                this.phase = "Round " + this.round;
+                this.setQuestion().then(() => {
+                    this.setAnswers(this.roundQuestion.id)
+                });
+            }, 2000);
         }
     }
 
