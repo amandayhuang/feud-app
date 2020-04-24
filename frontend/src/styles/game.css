@@ -54,7 +54,7 @@
 .answer-form-container {
     display: flex;
     flex-direction: column;
-    min-height: 150px
+    min-height: 40px;
 }
 
 .answer-form {
@@ -98,4 +98,8 @@
 
 .other-answers {
     min-height: 40px;
+}
+
+.current-player, .other-answers {
+    font-size: 1.2em;
 }
