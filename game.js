@@ -194,6 +194,7 @@ class Game {
             setTimeout(() => {
                 this.lightningRoundCount++;
                 this.mentionedAnswers = [];
+                this.strikes = 0;
                 this.setQuestion().then(() => {
                     this.setAnswers(this.roundQuestion.id)
                 });
