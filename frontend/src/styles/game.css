@@ -1,6 +1,29 @@
 .game-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    margin-top: 90px;
+    position: relative;
+}
+
+#logo-in-game {
+    width: 150px;
+    position: absolute;
+    left: 25px;
+}
+
+.room-name.in-game {
+    position: absolute;
+    right: 45px;
+    top: 15px;
+    font-size: 1em;
+    text-align: center;
+    width: 60px;
+}
+
+.round-info {
+    position: absolute;
+    right: 20px;
+    top: -60px;
 }
 
 .game-phase,
@@ -11,6 +34,16 @@
   text-align: center;
 }
 
+.round-points {
+    background-image: var(--button-gradient);
+    border: 3px solid var(--yellow);
+    border-bottom: 0;
+    width: 80px;
+    align-self: center;
+    font-size: 2em;
+    color: var(--white);
+}
+
 .question > h1 {
   text-align: center;
   font-size: 1.5em;
@@ -18,12 +51,12 @@
 }
 
 .answer-board {
-  background-color: var(--brown);
-  border: 5px solid var(--yellow);
-  border-radius: 50px;
-  display: flex;
-  flex-direction: column;
-  height: 335px;
+    background-image: var(--container-gradient);
+    border: 5px solid var(--yellow);
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    height: 320px;
 }
 
 .answer-board > ul:first-of-type {

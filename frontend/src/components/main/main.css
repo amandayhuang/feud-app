@@ -13,6 +13,7 @@
   max-width: 400px;
   min-width: 320px;
   padding: 10px;
+  position: relative;
 }
 
 .landing-buttons {
@@ -52,6 +53,7 @@
   color: var(--room-name);
   font-size: 30px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .players-list-container {

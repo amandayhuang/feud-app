@@ -114,6 +114,8 @@ class Game extends React.Component {
       teamNum,
       team1points,
       team2points,
+      team1players,
+      team2players
     } = this.props.gameState;
 
     const currentTeamText = teamNum ? `Team ${teamNum}` : "";
@@ -127,6 +129,20 @@ class Game extends React.Component {
       otherAnswer
     );
     const answerList = this.createAnswerList(answerBoard);
+    const team1List = team1players.map(player => {
+        return (
+            <li key={player.id}>
+                {player.name}
+            </li>
+        )
+    })
+    const team2List = team2players.map(player => {
+        return (
+            <li key={player.id}>
+                {player.name}
+            </li>
+        )
+    })
 
     let gameContainer, newRoundContainer, emptyContainer, endGameContainer;
     switch (gamePhase) {
@@ -135,12 +151,14 @@ class Game extends React.Component {
       case "pauseLightning":
         gameContainer = (
           <div className="game-container">
-            <div className="game-phase">{phase}</div>
-            <div className="team-name">{currentTeamText} is up!</div>
-            <div className="round-points">Round points: {roundPoints}</div>
+            <div className="round-info">
+                <div className="game-phase">{phase}</div>
+                <div className="team-name">{currentTeamText} is up!</div>
+            </div>
             <div className="question">
               <h1>{question}</h1>
             </div>
+            <div className="round-points">{roundPoints}</div>
             <div className="answer-board">
               <ul>{answerList}</ul>
               <ul className="strikes-list">{strikesList}</ul>
@@ -157,19 +175,57 @@ class Game extends React.Component {
         break;
       case "newRound":
         newRoundContainer = (
-          <div className="new-round-container">
-            <p>Starting {phase}...</p>
-            <p>Team 1 Points: {team1points}</p>
-            <p>Team 2 Points: {team2points}</p>
+          <div className="round-change-container">
+            <h1>Starting {phase}...</h1>
+            <div className="team-container">
+                <h1>Team 1</h1>
+                <ul>
+                    {team1List}
+                </ul>
+                <div className="round-sum-points">
+                     {team1points}
+                </div>
+            </div>
+            <div className="team-container">
+                <h1>Team 2</h1>
+                <ul>
+                    {team2List}
+                </ul>
+                <div className="round-sum-points">
+                    {team2points}
+                </div>
+            </div>
           </div>
         );
         break;
       case "endGame":
         endGameContainer = (
-          <div className="new-round-container">
-            <p>Game over!</p>
-            <p>Team 1 Points: {team1points}</p>
-            <p>Team 2 Points: {team2points}</p>
+          <div className="round-change-container end-game">
+            <h1>Game Over!</h1>
+            <div className={`team-container ${team1points > team2points ? 'winner' : ''}`}>
+                <h1>Team 1</h1>
+                <ul>
+                    {team1List}
+                </ul>
+                <div className="round-sum-points">
+                     {team1points}
+                </div>
+                <div className={`winner-text ${team1points > team2points ? '' : 'hidden'}`}>
+                    <h1>WINNER!</h1>
+                </div>
+            </div>
+            <div className={`team-container ${team2points > team1points ? 'winner' : ''}`}>
+                <h1>Team 2</h1>
+                <ul>
+                    {team2List}
+                </ul>
+                <div className="round-sum-points">
+                     {team2points}
+                </div>
+                <div className={`winner-text ${team2points > team1points ? '' : 'hidden'}`}>
+                    <h1>WINNER!</h1>
+                </div>
+            </div>
           </div>
         );
         break;

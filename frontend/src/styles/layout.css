@@ -43,3 +43,7 @@ button {
 button:hover {
   background-color: var(--orange-hover);
 }
+
+.hidden {
+  display: none;
+}
