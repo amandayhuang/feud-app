@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-.game-phase, .team-name, .round-points, .other-answers {
+.game-phase, .team-name, .round-points, .other-answers, .current-player {
     text-align: center;
 }
 
@@ -54,6 +54,7 @@
 .answer-form-container {
     display: flex;
     flex-direction: column;
+    min-height: 150px
 }
 
 .answer-form {
@@ -70,7 +71,7 @@
     border-radius: 3px;
     box-sizing: border-box;
     padding: 10px;
-    margin: 25px 0 20px;
+    margin: 15px 0 20px;
 }
 
 .answer-form > button {
@@ -78,4 +79,23 @@
     border: 3px solid var(--white);
     width: 100%;
     height: 70px;
+}
+
+.timer {
+    font-size: 1.3em;
+    text-align: center;
+    background-image: var(--button-gradient);
+    color: white;
+    width: 40px;
+    align-self: center;
+    border: 1px solid white;
+    margin: 10px;
+}
+
+.current-player {
+    padding: 20px;
+}
+
+.other-answers {
+    min-height: 40px;
 }
