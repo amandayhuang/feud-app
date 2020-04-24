@@ -24,6 +24,11 @@
   flex-direction: column;
 }
 
+.lobby-title {
+  color: #faff16;
+  font-size: 27px;
+}
+
 .room-form {
   display: flex;
   flex-direction: column;
@@ -38,22 +43,23 @@
   border: 1px solid #bbc0c4;
   border-radius: 3px;
   box-sizing: border-box;
+  font-family: inherit;
   margin: 10px;
   padding: 9.1px;
-  width: 100%;
 }
 
 .room-name {
+  color: #a5170e;
   font-size: 30px;
   margin-bottom: 20px;
 }
 
 .players-list-container {
-  background-color: saddlebrown;
-  padding: 20px;
+  background-image: radial-gradient(#e41010, #791a0b);
   border: 1px solid yellow;
   border-radius: 10px;
   min-width: 250px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -62,9 +68,11 @@
 }
 
 .player-item {
-  background-color: blue;
+  background-image: radial-gradient(#247bec, #005ac1);
+  border: 2px solid #bac8fb;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 0px navy;
   margin: 10px;
   padding: 8px;
   text-align: center;
-  border-radius: 5px;
 }

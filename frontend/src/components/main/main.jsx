@@ -18,7 +18,7 @@ class Main extends React.Component {
       gameErrors: "",
       otherAnswer: null,
       phase: "prelobby",
-      gamePhase: "round"
+      gamePhase: "round",
     };
     this.socket = null;
     this.otherAnswerTimer = null;
@@ -69,26 +69,26 @@ class Main extends React.Component {
   }
 
   startNewRound() {
-    console.log('starting new round');
-    this.setState({ gamePhase: 'newRound' });
+    console.log("starting new round");
+    this.setState({ gamePhase: "newRound" });
     setTimeout(() => {
-      this.setState({ gamePhase: 'round'});
-      console.log('returning to game');
+      this.setState({ gamePhase: "round" });
+      console.log("returning to game");
     }, 5000);
   }
-  
+
   endRound() {
-    console.log('ending round');
-    this.setState({ gamePhase: 'endRound' });
+    console.log("ending round");
+    this.setState({ gamePhase: "endRound" });
     setTimeout(() => {
       this.startNewRound();
-      console.log('in between rounds');
+      console.log("in between rounds");
     }, 2000);
   }
 
   endGame() {
-    console.log('game over');
-    this.setState({ gamePhase: 'endGame' });
+    console.log("game over");
+    this.setState({ gamePhase: "endGame" });
   }
 
   pauseLightning() {
@@ -108,8 +108,11 @@ class Main extends React.Component {
     if (this.otherAnswerTimer) {
       clearInterval(this.otherAnswerTimer);
     }
-    this.otherAnswerTimer = setInterval(() => this.setState({ otherAnswer: null }), 3000);
-    this.setState({ otherAnswer: { playerId, answer }});
+    this.otherAnswerTimer = setInterval(
+      () => this.setState({ otherAnswer: null }),
+      3000
+    );
+    this.setState({ otherAnswer: { playerId, answer } });
   }
 
   handleRoomJoin(action, roomName, nickname) {
@@ -169,7 +172,7 @@ class Main extends React.Component {
 
     return (
       <div className="main-container">
-        <img id="logo" src="logo-2x.png" />
+        <img id="logo" src="images/logo.png" />
         <h2 className="room-name">{roomName}</h2>
         {prelobby}
         {lobby}
