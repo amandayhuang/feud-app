@@ -135,12 +135,14 @@ class Game extends React.Component {
       case "pauseLightning":
         gameContainer = (
           <div className="game-container">
-            <div className="game-phase">{phase}</div>
-            <div className="team-name">{currentTeamText} is up!</div>
-            <div className="round-points">Round points: {roundPoints}</div>
+            <div className="round-info">
+                <div className="game-phase">{phase}</div>
+                <div className="team-name">{currentTeamText} is up!</div>
+            </div>
             <div className="question">
               <h1>{question}</h1>
             </div>
+            <div className="round-points">{roundPoints}</div>
             <div className="answer-board">
               <ul>{answerList}</ul>
               <ul className="strikes-list">{strikesList}</ul>

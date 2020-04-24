@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 90px;
+    position: relative;
 }
 
 #logo-in-game {
@@ -12,9 +13,17 @@
 
 .room-name.in-game {
     position: absolute;
-    right: 50px;
-    top: 40px;
+    right: 45px;
+    top: 15px;
     font-size: 1em;
+    text-align: center;
+    width: 60px;
+}
+
+.round-info {
+    position: absolute;
+    right: 20px;
+    top: -60px;
 }
 
 .game-phase,
@@ -29,9 +38,10 @@
     background-image: var(--button-gradient);
     border: 3px solid var(--yellow);
     border-bottom: 0;
-    width: 40px;
+    width: 80px;
     align-self: center;
     font-size: 2em;
+    color: var(--white);
 }
 
 .question > h1 {
