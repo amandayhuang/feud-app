@@ -40,14 +40,14 @@ class Game extends React.Component {
     for (let i = 0; i < strikes; i++) {
       strikesList.push(
         <li>
-          <img id="strike" src="images/strike.svg" />
+          <img id="strike" src="images/strike.png" />
         </li>
       );
     }
     for (let i = 0; i < 3 - strikes; i++) {
       strikesList.push(
         <li>
-          <img id="unstrike" src="images/strike.svg" />
+          <img id="unstrike" src="images/strike.png" />
         </li>
       );
     }
