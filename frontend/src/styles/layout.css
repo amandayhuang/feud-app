@@ -6,7 +6,13 @@
   --yellow: #fff5a7;
   --button-bg: var(--orange);
   --button-text: var(--white);
-  --button-gradient: linear-gradient(#0055c4, #003677);
+  --button-gradient: radial-gradient(#247bec, #005ac1);
+  --button-border: #bac8fb;
+  --container-gradient: radial-gradient(#e41010, #791a0b);
+  --room-name: #a5170e;
+  --lobby-title: #faff16;
+  --input-border: #bbc0c4;
+  --navy-shadow: navy;
 }
 
 h1 {

@@ -25,7 +25,7 @@
 }
 
 .lobby-title {
-  color: #faff16;
+  color: var(--lobby-title);
   font-size: 27px;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .room-form-input {
-  border: 1px solid #bbc0c4;
+  border: 1px solid var(--input-border);
   border-radius: 3px;
   box-sizing: border-box;
   font-family: inherit;
@@ -49,14 +49,14 @@
 }
 
 .room-name {
-  color: #a5170e;
+  color: var(--room-name);
   font-size: 30px;
   margin-bottom: 20px;
 }
 
 .players-list-container {
-  background-image: radial-gradient(#e41010, #791a0b);
-  border: 1px solid yellow;
+  background-image: var(--container-gradient);
+  border: 1px solid var(--yellow);
   border-radius: 10px;
   min-width: 250px;
   padding: 20px;
@@ -68,10 +68,10 @@
 }
 
 .player-item {
-  background-image: radial-gradient(#247bec, #005ac1);
-  border: 2px solid #bac8fb;
+  background-image: var(--button-gradient);
+  border: 2px solid var(--button-border);
   border-radius: 5px;
-  box-shadow: 1px 1px 1px 0px navy;
+  box-shadow: 1px 1px 1px 0px var(--navy-shadow);
   margin: 10px;
   padding: 8px;
   text-align: center;
