@@ -38,7 +38,7 @@ class Room {
             newEle.answer = element.answer;
             newEle.rank = element.rank
             
-            if(this.game.mentionedAnswers.includes(element.answer.toLowerCase())){
+            if(this.game.mentionedAnswers.includes(element.answer.toLowerCase()) || this.game.phase === 'Reveal'){
                 newEle.isRevealed = true;
             }else{
                 newEle.isRevealed = false;
