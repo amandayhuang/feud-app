@@ -63,7 +63,7 @@ class Game extends React.Component {
             )
         } else {
             return (
-                <h3>{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
+                <h3 className="current-player">{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
             )
         };
     }

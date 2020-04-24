@@ -64,6 +64,7 @@ class AnswerForm extends React.Component {
         const { timer } = this.state;
         return (
             <>
+                <h2 className="timer">{timer}</h2>
                 <form onSubmit={this.handleAnswerSubmit} className="answer-form">
                     <input type="text"
                         placeholder="Enter answer"
@@ -72,7 +73,6 @@ class AnswerForm extends React.Component {
                     </input>
                     <button type="submit">SUBMIT</button>
                 </form>
-                <h2 className="timer">{timer}</h2>
             </>
         )
     }
