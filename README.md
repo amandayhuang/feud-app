@@ -30,8 +30,9 @@ At the end of the three rounds, the winning team can nominate a player to play l
 * Node.JS
 * React / Redux
 * CSS / HTML
-* socket.io
+* [socket.io](https://socket.io/)
 * [SCRIBD](https://www.scribd.com/doc/298239829/Family-Feud-Question-Database)
+* [FUZZBALL](https://www.npmjs.com/package/fuzzball#installation)
 
 ## Group Members
 * Adam Moftah
