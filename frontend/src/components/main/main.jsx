@@ -136,6 +136,8 @@ class Main extends React.Component {
     if (phase === "prelobby") {
       prelobby = (
         <>
+          <img id="logo" src="images/logo.png" />
+          <h2 className="room-name">{roomName}</h2>
           <div className="room-form-container">
             <RoomForm
               handleRoomJoin={(action, roomName, nickname) =>
@@ -149,6 +151,8 @@ class Main extends React.Component {
     } else if (phase === "lobby") {
       lobby = (
         <div>
+          <img id="logo" src="images/logo.png" />
+          <h2 className="room-name">{roomName}</h2>
           <Lobby
             gameState={gameState}
             playerId={playerId}
@@ -159,6 +163,8 @@ class Main extends React.Component {
     } else if (phase === "game") {
       game = (
         <div>
+          <img id="logo-in-game" src="images/logo.png" />
+          <h2 className="room-name in-game">{roomName}</h2>
           <Game
             gameState={gameState}
             playerId={playerId}
@@ -172,8 +178,6 @@ class Main extends React.Component {
 
     return (
       <div className="main-container">
-        <img id="logo" src="images/logo.png" />
-        <h2 className="room-name">{roomName}</h2>
         {prelobby}
         {lobby}
         {game}
