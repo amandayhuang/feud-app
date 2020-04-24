@@ -53,6 +53,7 @@
   color: var(--room-name);
   font-size: 30px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .players-list-container {

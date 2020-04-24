@@ -51,7 +51,7 @@
 }
 
 .answer-board {
-    background-color: var(--brown);
+    background-image: var(--container-gradient);
     border: 5px solid var(--yellow);
     border-radius: 50px;
     display: flex;
