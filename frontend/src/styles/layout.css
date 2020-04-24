@@ -13,6 +13,7 @@
   --lobby-title: #faff16;
   --input-border: #bbc0c4;
   --navy-shadow: navy;
+  --body-gradient: linear-gradient(to bottom, #b9cefd, #ebccb5, #b9cefd);
 }
 
 h1 {
@@ -24,7 +25,7 @@ h2 {
 }
 
 body {
-  background-image: linear-gradient(#b9cefd, #ebccb5);
+  background-image: var(--body-gradient);
 }
 
 button {
