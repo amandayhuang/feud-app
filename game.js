@@ -52,9 +52,13 @@ class Game {
 
     fetchQuestion(visitedQs) {
         let randomNum = Math.floor(Math.random() * Math.floor(3923));
-        while (visitedQs.includes(randomNum)) {
+        while (this.visitedQs.includes(randomNum)) {
           randomNum = Math.floor(Math.random() * Math.floor(3923));
         }
+
+        this.visitedQs.push(randomNum);
+
+        
 
         return QuestionModel.find({
             id: randomNum

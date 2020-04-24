@@ -63,7 +63,7 @@ class Game extends React.Component {
             )
         } else {
             return (
-                <h3>{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
+                <h3 className="current-player">{currentPlayer ? `${currentPlayer.name}'s turn!` : ''}</h3>
             )
         };
     }
@@ -86,15 +86,15 @@ class Game extends React.Component {
         return answerBoard.map((answer, idx) => {
             if (this.state.cheat) {
                 return (
-                    <button>
+                    <li key={idx}>
                         {answer.answer}
-                    </button>
+                    </li>
                 )
             } else {
                 return (
-                    <button>
+                    <li key={idx}>
                         {answer.isRevealed ? `${answer.answer}` : `${idx + 1}`}
-                    </button>
+                    </li>
                 )
             }
         });
@@ -119,24 +119,25 @@ class Game extends React.Component {
         switch (gamePhase) {
             case "round":
             case "endRound":
+            case "pauseLightning":
                 gameContainer = (
                     <div className="game-container">
-                        <div>Current phase: {phase}</div>
-                        <div>Current team: {currentTeamText}</div>
-                        <div>Round points: {roundPoints}</div>
-                        Question: {question}
+                        <div className="game-phase">{phase}</div>
+                        <div className="team-name">{currentTeamText} is up!</div>
+                        <div className="round-points">Round points: {roundPoints}</div>
+                        <div className="question"><h1>{question}</h1></div>
                         <div className="answer-board">
-                            {answerList}
+                            <ul>{answerList}</ul>
+                            <ul className="strikes-list">{strikesList}</ul>
                         </div>
-                        <div>{strikesList}</div>
                         <div className="answer-form-container">
                             { gamePhase === "round" ? answerSection : "" }
                         </div>
-                        <div>
+                        <div className="other-answers">
                             {otherPlayerAnswerSection}
                         </div>
                         <div>
-                            <button onClick={() => this.toggleCheat()}>Toggle Cheat</button>
+                            <button onClick={() => this.toggleCheat()}></button>
                         </div>
                     </div>
                 );
@@ -167,7 +168,7 @@ class Game extends React.Component {
 
     render() {
         const { gameContainer, newRoundContainer, emptyContainer, endGameContainer } = this.setContainers();
-        
+        // debugger
         return (
             <>
                 { gameContainer }

@@ -32,6 +32,7 @@ class Main extends React.Component {
     this.startNewRound = this.startNewRound.bind(this);
     this.endRound = this.endRound.bind(this);
     this.endGame = this.endGame.bind(this);
+    this.pauseLightning = this.pauseLightning.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +52,7 @@ class Main extends React.Component {
       this.socket.on("startNewRound", this.startNewRound);
       this.socket.on("endRound", this.endRound);
       this.socket.on("endGame", this.endGame);
+      this.socket.on("pauseLightning", this.pauseLightning);
     });
   }
 
@@ -87,6 +89,15 @@ class Main extends React.Component {
   endGame() {
     console.log("game over");
     this.setState({ gamePhase: "endGame" });
+  }
+
+  pauseLightning() {
+    console.log('pausing lightning round');
+    this.setState({ gamePhase: 'pauseLightning' });
+    setTimeout(() => {
+      this.setState({ gamePhase: 'round' });
+      console.log('resuming lightning round');
+    }, 1000);
   }
 
   receiveGameState(gameState) {

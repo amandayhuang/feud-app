@@ -10,7 +10,7 @@ class AnswerForm extends React.Component {
         this.handleAnswerSubmit = this.handleAnswerSubmit.bind(this);
         this.updateForm = this.updateForm.bind(this);
         this.answerTimer = null;
-        this.answerTimerLength = 15;
+        this.answerTimerLength = 100;
     }
 
     componentDidMount() {
@@ -64,15 +64,15 @@ class AnswerForm extends React.Component {
         const { timer } = this.state;
         return (
             <>
+                <h2 className="timer">{timer}</h2>
                 <form onSubmit={this.handleAnswerSubmit} className="answer-form">
                     <input type="text"
                         placeholder="Enter answer"
                         value={this.state.answer}
                         onChange={this.updateForm('answer')}>
                     </input>
-                    <button type="submit">Submit</button>
+                    <button type="submit">SUBMIT</button>
                 </form>
-                <h2>{timer}</h2>
             </>
         )
     }
