@@ -30,6 +30,7 @@ class Main extends React.Component {
     this.handleStartGame = this.handleStartGame.bind(this);
     this.receiveOtherAnswer = this.receiveOtherAnswer.bind(this);
     this.startNewRound = this.startNewRound.bind(this);
+    this.endRound = this.endRound.bind(this);
     this.endGame = this.endGame.bind(this);
   }
 
@@ -48,6 +49,7 @@ class Main extends React.Component {
       this.socket.on("setPhase", this.setPhase);
       this.socket.on("receiveOtherAnswer", this.receiveOtherAnswer);
       this.socket.on("startNewRound", this.startNewRound);
+      this.socket.on("endRound", this.endRound);
       this.socket.on("endGame", this.endGame);
     });
   }
@@ -71,6 +73,15 @@ class Main extends React.Component {
       this.setState({ gamePhase: 'round'});
       console.log('returning to game');
     }, 5000);
+  }
+  
+  endRound() {
+    console.log('ending round');
+    this.setState({ gamePhase: 'endRound' });
+    setTimeout(() => {
+      this.startNewRound();
+      console.log('in between rounds');
+    }, 2000);
   }
 
   endGame() {

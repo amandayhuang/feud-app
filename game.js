@@ -157,7 +157,7 @@ class Game {
     }
 
     lightningRound() {
-        this.io.to(this.roomName).emit('startNewRound');
+        this.io.to(this.roomName).emit('endround');
         this.phase = 'Lightning Round';
         if (this.team1Points > this.team2Points) {
             this.currentTeam = this.team1;
@@ -211,13 +211,13 @@ class Game {
                 this.lightningRound();
             }, 2000);
         }else{
+            this.io.to(this.roomName).emit('endRound');
             setTimeout(() => {
                 this.correctAnswerCount = 0;
                 this.accumulatedPoints = 0;
                 this.strikes = 0;
                 this.round += 1;
                 this.mentionedAnswers = [];
-                this.io.to(this.roomName).emit('startNewRound');
                 this.phase = "Round " + this.round;
                 this.setQuestion().then(() => {
                     this.setAnswers(this.roundQuestion.id)
