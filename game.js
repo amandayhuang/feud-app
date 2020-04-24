@@ -195,10 +195,10 @@ class Game {
             this.io.to(this.roomName).emit('endGame');
             this.phase = 'Game Over';
         } else {
-            this.phase = 'Reveal';
+            // this.phase = 'Reveal';
             this.io.to(this.roomName).emit('pauseLightning');
             setTimeout(() => {
-                this.phase = 'Lightning Round';
+                // this.phase = 'Lightning Round';
                 this.lightningRoundCount++;
                 this.mentionedAnswers = [];
                 this.strikes = 0;
