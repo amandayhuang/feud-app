@@ -190,11 +190,15 @@ class Game {
             this.io.to(this.roomName).emit('endGame');
             this.phase = 'Game Over';
         } else {
-            this.lightningRoundCount++;
-            this.mentionedAnswers = [];
-            this.setQuestion().then(() => {
-                this.setAnswers(this.roundQuestion.id)
-            });
+            this.io.to(this.roomName).emit('pauseLightning');
+            setTimeout(() => {
+                this.lightningRoundCount++;
+                this.mentionedAnswers = [];
+                this.setQuestion().then(() => {
+                    this.setAnswers(this.roundQuestion.id)
+                });
+            }, 1000);
+            
         }
     }
 
