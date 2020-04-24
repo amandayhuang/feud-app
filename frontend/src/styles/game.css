@@ -17,8 +17,12 @@
     font-size: 1em;
 }
 
-.game-phase, .team-name, .round-points, .other-answers, .current-player {
-    text-align: center;
+.game-phase,
+.team-name,
+.round-points,
+.other-answers,
+.current-player {
+  text-align: center;
 }
 
 .round-points {
@@ -31,9 +35,9 @@
 }
 
 .question > h1 {
-    text-align: center;
-    font-size: 1.5em;
-    padding: 10px 0;
+  text-align: center;
+  font-size: 1.5em;
+  padding: 10px 0;
 }
 
 .answer-board {
@@ -45,84 +49,95 @@
     height: 320px;
 }
 
-.answer-board > ul:first-of-type{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 100%;
+.answer-board > ul:first-of-type {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
 }
 
 .answer-board > ul:first-of-type > li {
-    width: 80%;
-    height: 70px;
-    background-image: var(--button-gradient);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--yellow);
-    border-radius: 20px;
-    color: var(--button-text);
-    font-size: 1.5em;
+  width: 80%;
+  height: 70px;
+  background-image: var(--button-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--yellow);
+  border-radius: 20px;
+  color: var(--button-text);
+  font-size: 1.5em;
 }
 
 .strikes-list {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    padding-bottom: 20px;
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
 }
 
 .answer-form-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  min-height: 40px;
 }
 
 .answer-form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .answer-form > input {
-    width: 80%;
-    height: 50px;
-    font-size: 1.5em;
-    border: 1px solid #bbc0c4;
-    border-radius: 3px;
-    box-sizing: border-box;
-    padding: 10px;
-    margin: 15px 0 20px;
+  width: 80%;
+  height: 50px;
+  font-size: 1.5em;
+  border: 1px solid #bbc0c4;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 15px 0 20px;
 }
 
 .answer-form > button {
-    font-size: 2em;
-    border: 3px solid var(--white);
-    width: 100%;
-    height: 70px;
+  font-size: 2em;
+  border: 3px solid var(--white);
+  width: 100%;
+  height: 70px;
 }
 
 .timer {
-    font-size: 1.3em;
-    text-align: center;
-    background-image: var(--button-gradient);
-    color: white;
-    width: 40px;
-    align-self: center;
-    border: 1px solid white;
-    margin: 10px;
+  font-size: 1.3em;
+  text-align: center;
+  background-image: var(--button-gradient);
+  color: white;
+  width: 40px;
+  align-self: center;
+  border: 1px solid white;
+  margin: 10px;
 }
 
 .current-player {
-    padding: 20px;
+  padding: 20px;
 }
 
 .other-answers {
-    min-height: 40px;
+  min-height: 40px;
 }
 
-.current-player, .other-answers {
-    font-size: 1.2em;
+.current-player,
+.other-answers {
+  font-size: 1.2em;
+}
+
+#strike {
+  opacity: 100%;
+  width: 45px;
+}
+
+#unstrike {
+  opacity: 20%;
+  width: 45px;
 }
