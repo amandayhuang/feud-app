@@ -2,6 +2,7 @@
   --brown: #5f2d03;
   --orange: #f56b06;
   --orange-hover: #b54b00;
+  --footer-orange: #f56a065c;
   --white: white;
   --yellow: #fff5a7;
   --button-bg: var(--orange);
@@ -46,4 +47,10 @@ button:hover {
 
 .hidden {
   display: none;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
 }

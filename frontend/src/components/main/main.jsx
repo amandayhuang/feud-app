@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import RoomForm from "../room/room_form";
 import Lobby from "../game/lobby";
 import Game from "../game/game";
-import SoloGame from '../game/solo_game';
+import SoloGame from "../game/solo_game";
 import HOST from "../../util/host";
 
 class Main extends React.Component {
@@ -55,7 +55,7 @@ class Main extends React.Component {
       this.socket.on("endRound", this.endRound);
       this.socket.on("endGame", this.endGame);
       this.socket.on("pauseLightning", this.pauseLightning);
-      this.socket.on("setGamePhase", this.setGamePhase)
+      this.socket.on("setGamePhase", this.setGamePhase);
     });
   }
 
@@ -99,11 +99,11 @@ class Main extends React.Component {
   }
 
   pauseLightning() {
-    // console.log('pausing lightning round');
-    this.setState({ gamePhase: 'pauseLightning' });
+    console.log("pausing lightning round");
+    this.setState({ gamePhase: "pauseLightning" });
     setTimeout(() => {
-      this.setState({ gamePhase: 'round' });
-      // console.log('resuming lightning round');
+      this.setState({ gamePhase: "round" });
+      console.log("resuming lightning round");
     }, 1000);
   }
 
@@ -136,7 +136,7 @@ class Main extends React.Component {
 
   handleStartSolo() {
     this.socket.emit("startSolo");
-    this.setState({ roomName: this.socket.id});
+    this.setState({ roomName: this.socket.id });
   }
 
   handleLeaveSolo() {
@@ -159,11 +159,12 @@ class Main extends React.Component {
     if (phase === "prelobby") {
       prelobby = (
         <>
-          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo"/>
+          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo" />
           <div className="room-form-container">
             <RoomForm
               handleRoomJoin={(action, roomName, nickname) =>
-                this.handleRoomJoin(action, roomName, nickname)}
+                this.handleRoomJoin(action, roomName, nickname)
+              }
               handleStartSolo={() => this.handleStartSolo()}
             />
           </div>
@@ -173,7 +174,7 @@ class Main extends React.Component {
     } else if (phase === "lobby") {
       lobby = (
         <div>
-          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo"/>
+          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo" />
           <h2 className="room-name">{roomName}</h2>
           <Lobby
             gameState={gameState}
@@ -185,7 +186,11 @@ class Main extends React.Component {
     } else if (phase === "game") {
       game = (
         <div>
-          <img id="logo-in-game" src="images/logo.png" alt="Feuding Friends Logo" />
+          <img
+            id="logo-in-game"
+            src="images/logo.png"
+            alt="Feuding Friends Logo"
+          />
           <h2 className="room-name in-game">{roomName}</h2>
           <Game
             gameState={gameState}
@@ -197,10 +202,14 @@ class Main extends React.Component {
           />
         </div>
       );
-    } else if (phase ==="solo") {
+    } else if (phase === "solo") {
       game = (
         <div>
-          <img id="logo-in-game" src="images/logo.png" alt="Feuding Friends Logo" />
+          <img
+            id="logo-in-game"
+            src="images/logo.png"
+            alt="Feuding Friends Logo"
+          />
           <SoloGame
             gameState={gameState}
             gamePhase={gamePhase}
@@ -208,7 +217,7 @@ class Main extends React.Component {
             handleLeaveSolo={() => this.handleLeaveSolo()}
           />
         </div>
-      )
+      );
     }
 
     return (

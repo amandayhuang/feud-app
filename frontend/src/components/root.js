@@ -1,20 +1,20 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { HashRouter } from 'react-router-dom';
+import React from "react";
+import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
 
-import App from './app';
+import App from "./app";
 
-import '../styles/reset.css';
-import '../styles/layout.css';
-import '../styles/game.css';
-import '../styles/round_change.css';
+import "../styles/reset.css";
+import "../styles/layout.css";
+import "../styles/game.css";
+import "../styles/round_change.css";
 
 const Root = ({ store }) => (
-    <Provider store={store}>
-        <HashRouter>
-            <App />
-        </HashRouter>
-    </Provider>
+  <Provider store={store}>
+    <HashRouter>
+      <App />
+    </HashRouter>
+  </Provider>
 );
 
 export default Root;
