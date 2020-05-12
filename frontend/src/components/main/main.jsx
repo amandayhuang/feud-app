@@ -129,13 +129,14 @@ class Main extends React.Component {
   }
 
   handleStartSolo() {
-    this.socket.emit("startsolo");
+    this.socket.emit("startSolo");
     this.setState({ roomName: this.socket.id});
   }
 
   handleLeaveSolo() {
     this.setPhase("prelobby");
-    this.setState({ gameState: { players: [] } })
+    this.setState({ gameState: { players: [] } });
+    this.socket.emit("leaveRoom", this.state.roomName);
   }
 
   render() {
