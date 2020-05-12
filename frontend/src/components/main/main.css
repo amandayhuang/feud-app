@@ -78,3 +78,41 @@
   padding: 8px;
   text-align: center;
 }
+
+.footer-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.footer-outer {
+  background-color: var(--footer-orange);
+  display: flex;
+  padding: 40px;
+  width: 100%;
+  z-index: 600;
+}
+
+.footer-inner {
+  display: flex;
+}
+
+.footer-list {
+  list-style: none;
+}
+
+.footer-image {
+  padding-right: 15px;
+  height: 75px;
+}
+
+.icon {
+  color: var(--navy-shadow);
+}
+
+.icon:hover {
+  color: var(--orange);
+}
+
+li span {
+  color: #b24f35;
+}

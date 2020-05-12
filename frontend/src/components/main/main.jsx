@@ -92,11 +92,11 @@ class Main extends React.Component {
   }
 
   pauseLightning() {
-    console.log('pausing lightning round');
-    this.setState({ gamePhase: 'pauseLightning' });
+    console.log("pausing lightning round");
+    this.setState({ gamePhase: "pauseLightning" });
     setTimeout(() => {
-      this.setState({ gamePhase: 'round' });
-      console.log('resuming lightning round');
+      this.setState({ gamePhase: "round" });
+      console.log("resuming lightning round");
     }, 1000);
   }
 
