@@ -65,11 +65,13 @@ class SoloGame extends React.Component {
             strikes,
             phase,
         } = this.props.gameState;
-
-
-        const strikesList = this.createStrikesList(strikes);
-        const answerSection = this.createAnswerSection(handleAnswerSubmit);
-        const answerList = this.createAnswerList(answerBoard);
+        
+        let strikesList, answerSection, answerList;
+        if (answerBoard) {
+            strikesList = this.createStrikesList(strikes);
+            answerSection = this.createAnswerSection(handleAnswerSubmit);
+            answerList = this.createAnswerList(answerBoard);
+        }
 
         let gameContainer, newRoundContainer, emptyContainer, endGameContainer;
         switch (gamePhase) {
@@ -136,13 +138,14 @@ class SoloGame extends React.Component {
     }
 
     render() {
+        // console.log(this.props.gameState);
         const {
             gameContainer,
             newRoundContainer,
             emptyContainer,
             endGameContainer,
         } = this.setContainers();
-        // debugger
+        
         return (
             <>
                 {gameContainer}

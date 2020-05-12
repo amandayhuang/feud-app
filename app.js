@@ -6,6 +6,7 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
 const Room = require('./room');
+const SoloRoom = require('./solo_room');
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
@@ -59,10 +60,9 @@ io.on('connect', (socket) => {
         console.log('Starting solo game');
         let roomName = socket.id;
         socket.join(roomName);
-        let newRoom = new Room(roomName, io); // change to new SoloRoom when class is created
+        let newRoom = new SoloRoom(roomName, io);
         rooms[roomName] = newRoom;
         newRoom.createGame();
-        // newRoom.addPlayer(nickname, socket.id); // we do not need to add player, correct?
         socket.emit('receiveConsoleMessage', `You started a solo game`);
         socket.emit('setPhase', 'solo');
     })
@@ -81,6 +81,7 @@ setInterval(() => {
         const room = rooms[roomName];
         let newGameState = room.getGameState();
         io.to(room.roomName).emit('receiveGameState', newGameState);
+        // io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
     })
 }, 200);
 

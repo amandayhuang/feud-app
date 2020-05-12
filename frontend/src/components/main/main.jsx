@@ -130,6 +130,7 @@ class Main extends React.Component {
 
   handleStartSolo() {
     this.socket.emit("startsolo");
+    this.setState({ roomName: this.socket.id});
   }
 
   render() {
@@ -186,9 +187,9 @@ class Main extends React.Component {
       game = (
         <div>
           <img id="logo-in-game" src="images/logo.png" />
-          <h2 className="room-name in-game">{roomName}</h2>
           <SoloGame
             gameState={gameState}
+            gamePhase={gamePhase}
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
           />
         </div>
