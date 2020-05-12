@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import RoomForm from "../room/room_form";
 import Lobby from "../game/lobby";
 import Game from "../game/game";
+import SoloGame from '../game/solo_game';
 import HOST from "../../util/host";
 
 class Main extends React.Component {
@@ -127,6 +128,10 @@ class Main extends React.Component {
     this.socket.emit("startGame", this.state.roomName);
   }
 
+  handleStartSolo() {
+    this.socket.emit("startsolo");
+  }
+
   render() {
     const roomName = this.state.roomName === "" ? "" : this.state.roomName;
     const { gameState, roomErrors, phase, gamePhase, otherAnswer } = this.state;
@@ -145,6 +150,9 @@ class Main extends React.Component {
               }
             />
           </div>
+          <button className="landing-buttons" onClick={() => this.handleStartSolo()}>
+            START SOLO
+          </button>
           <div className="errors">{roomErrors}</div>
         </>
       );
@@ -174,6 +182,17 @@ class Main extends React.Component {
           />
         </div>
       );
+    } else if (phase ==="solo") {
+      game = (
+        <div>
+          <img id="logo-in-game" src="images/logo.png" />
+          <h2 className="room-name in-game">{roomName}</h2>
+          <SoloGame
+            gameState={gameState}
+            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+          />
+        </div>
+      )
     }
 
     return (

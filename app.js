@@ -55,6 +55,18 @@ io.on('connect', (socket) => {
         io.to(roomName).emit('setPhase', 'game');
     })
 
+    socket.on('startsolo', () => {
+        console.log('Starting solo game');
+        let roomName = socket.id;
+        socket.join(roomName);
+        let newRoom = new Room(roomName, io); // change to new SoloRoom when class is created
+        rooms[roomName] = newRoom;
+        newRoom.createGame();
+        // newRoom.addPlayer(nickname, socket.id); // we do not need to add player, correct?
+        socket.emit('receiveConsoleMessage', `You started a solo game`);
+        socket.emit('setPhase', 'solo');
+    })
+
     socket.on('answer', (answer, roomName) => {
         rooms[roomName].game.receiveAnswer(answer);
         socket.to(roomName).emit('receiveOtherAnswer', socket.id, answer);
