@@ -34,15 +34,16 @@ class Main extends React.Component {
     this.endRound = this.endRound.bind(this);
     this.endGame = this.endGame.bind(this);
     this.pauseLightning = this.pauseLightning.bind(this);
+    this.setGamePhase = this.setGamePhase.bind(this);
   }
 
   componentDidMount() {
     this.socket = io(HOST);
     this.socket.on("connect", (socket) => {
-      console.log("Frontend connected! Socket id: " + this.socket.id);
+      // console.log("Frontend connected! Socket id: " + this.socket.id);
 
       this.socket.on("receiveConsoleMessage", (msg) => {
-        console.log(msg);
+        // console.log(msg);
       });
 
       this.socket.on("receiveGameState", this.receiveGameState);
@@ -54,6 +55,7 @@ class Main extends React.Component {
       this.socket.on("endRound", this.endRound);
       this.socket.on("endGame", this.endGame);
       this.socket.on("pauseLightning", this.pauseLightning);
+      this.socket.on("setGamePhase", this.setGamePhase)
     });
   }
 
@@ -69,35 +71,39 @@ class Main extends React.Component {
     this.setState({ phase: phase });
   }
 
+  setGamePhase(phase) {
+    this.setState({ gamePhase: phase });
+  }
+
   startNewRound() {
-    console.log("starting new round");
+    // console.log("starting new round");
     this.setState({ gamePhase: "newRound" });
     setTimeout(() => {
       this.setState({ gamePhase: "round" });
-      console.log("returning to game");
+      // console.log("returning to game");
     }, 5000);
   }
 
   endRound() {
-    console.log("ending round");
+    // console.log("ending round");
     this.setState({ gamePhase: "endRound" });
     setTimeout(() => {
       this.startNewRound();
-      console.log("in between rounds");
+      // console.log("in between rounds");
     }, 2000);
   }
 
   endGame() {
-    console.log("game over");
+    // console.log("game over");
     this.setState({ gamePhase: "endGame" });
   }
 
   pauseLightning() {
-    console.log('pausing lightning round');
+    // console.log('pausing lightning round');
     this.setState({ gamePhase: 'pauseLightning' });
     setTimeout(() => {
       this.setState({ gamePhase: 'round' });
-      console.log('resuming lightning round');
+      // console.log('resuming lightning round');
     }, 1000);
   }
 
@@ -137,6 +143,11 @@ class Main extends React.Component {
     this.setPhase("prelobby");
     this.setState({ gameState: { players: [] } });
     this.socket.emit("leaveRoom", this.state.roomName);
+  }
+
+  handleReset() {
+    let { roomName } = this.state;
+    this.socket.emit("resetGame", roomName);
   }
 
   render() {
@@ -180,6 +191,7 @@ class Main extends React.Component {
             gameState={gameState}
             playerId={playerId}
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            handleReset={() => this.handleReset()}
             gamePhase={gamePhase}
             otherAnswer={otherAnswer}
           />

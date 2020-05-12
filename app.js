@@ -22,6 +22,7 @@ mongoose
 
 
 let rooms = {};
+let roomsBySocket = {};
 io.on('connect', (socket) => {
     console.log("Connected to Socket yay! Socket id: " + socket.id);
 
@@ -35,6 +36,7 @@ io.on('connect', (socket) => {
             let newRoom = new Room(roomName, io);
             newRoom.addPlayer(nickname, socket.id);
             rooms[roomName] = newRoom;
+            roomsBySocket[socket.id] = roomName;
         }     
     });
 
@@ -44,6 +46,7 @@ io.on('connect', (socket) => {
             socket.emit('receiveConsoleMessage', `You joined room ${roomName}`);
             socket.emit('joinRoom', roomName);
             rooms[roomName].addPlayer(nickname, socket.id);
+            roomsBySocket[socket.id] = roomName;
         } else {
             socket.emit('receiveRoomError', 'Room does not exist!');
         }
@@ -71,6 +74,20 @@ io.on('connect', (socket) => {
         socket.leave(roomName);
         delete rooms[roomName];
     })
+
+    socket.on('resetGame', roomName => {
+        io.to(roomName).emit('setPhase', "lobby");
+        io.to(roomName).emit('setGamePhase', "round");
+    })
+
+    socket.on('disconnect', () => {
+        let roomName = roomsBySocket[socket.id];
+        delete roomsBySocket[socket.id];
+        if (!io.sockets.adapter.rooms[roomName]) {
+            console.log(`No more players in room, deleting ${roomName}`);
+            delete rooms[roomName];
+        }
+    });
 
     socket.on('answer', (answer, roomName) => {
         rooms[roomName].game.receiveAnswer(answer);

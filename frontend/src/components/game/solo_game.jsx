@@ -137,7 +137,6 @@ class SoloGame extends React.Component {
     }
 
     render() {
-        // console.log(this.props.gameState);
         const {
             gameContainer,
             newRoundContainer,
