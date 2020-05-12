@@ -226,6 +226,9 @@ class Game extends React.Component {
                     <h1>WINNER!</h1>
                 </div>
             </div>
+            <div>
+              <button onClick={() => this.props.handleReset()}>Play Again</button>
+            </div>
           </div>
         );
         break;

@@ -34,6 +34,7 @@ class Main extends React.Component {
     this.endRound = this.endRound.bind(this);
     this.endGame = this.endGame.bind(this);
     this.pauseLightning = this.pauseLightning.bind(this);
+    this.setGamePhase = this.setGamePhase.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,7 @@ class Main extends React.Component {
       this.socket.on("endRound", this.endRound);
       this.socket.on("endGame", this.endGame);
       this.socket.on("pauseLightning", this.pauseLightning);
+      this.socket.on("setGamePhase", this.setGamePhase)
     });
   }
 
@@ -67,6 +69,10 @@ class Main extends React.Component {
 
   setPhase(phase) {
     this.setState({ phase: phase });
+  }
+
+  setGamePhase(phase) {
+    this.setState({ gamePhase: phase });
   }
 
   startNewRound() {
@@ -139,6 +145,11 @@ class Main extends React.Component {
     this.socket.emit("leaveRoom", this.state.roomName);
   }
 
+  handleReset() {
+    let { roomName } = this.state;
+    this.socket.emit("resetGame", roomName);
+  }
+
   render() {
     const roomName = this.state.roomName === "" ? "" : this.state.roomName;
     const { gameState, roomErrors, phase, gamePhase, otherAnswer } = this.state;
@@ -180,6 +191,7 @@ class Main extends React.Component {
             gameState={gameState}
             playerId={playerId}
             handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            handleReset={() => this.handleReset()}
             gamePhase={gamePhase}
             otherAnswer={otherAnswer}
           />
