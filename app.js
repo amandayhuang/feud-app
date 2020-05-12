@@ -6,6 +6,7 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const path = require("path");
 const Room = require('./room');
+const SoloRoom = require('./solo_room');
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
@@ -55,6 +56,17 @@ io.on('connect', (socket) => {
         io.to(roomName).emit('setPhase', 'game');
     })
 
+    socket.on('startsolo', () => {
+        console.log('Starting solo game');
+        let roomName = socket.id;
+        socket.join(roomName);
+        let newRoom = new SoloRoom(roomName, io);
+        rooms[roomName] = newRoom;
+        newRoom.createGame();
+        socket.emit('receiveConsoleMessage', `You started a solo game`);
+        socket.emit('setPhase', 'solo');
+    })
+
     socket.on('answer', (answer, roomName) => {
         rooms[roomName].game.receiveAnswer(answer);
         socket.to(roomName).emit('receiveOtherAnswer', socket.id, answer);
@@ -69,6 +81,7 @@ setInterval(() => {
         const room = rooms[roomName];
         let newGameState = room.getGameState();
         io.to(room.roomName).emit('receiveGameState', newGameState);
+        // io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
     })
 }, 200);
 

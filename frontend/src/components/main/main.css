@@ -33,11 +33,14 @@
 .room-form {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .room-form-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 65%;
 }
 
 .room-form-input {

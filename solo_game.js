@@ -16,7 +16,7 @@ class SoloGame {
         this.roomName = roomName;
         this.io = io;
 
-        this.resetRound();
+        // this.resetRound();
     }
 
     setQuestion() {

@@ -14,7 +14,7 @@ class RoomForm extends React.Component {
     this.nicknameMaxLength = 8;
     this.handleRoomJoin = this.handleRoomJoin.bind(this);
     this.updateForm = this.updateForm.bind(this);
-    this.switchForm = this.switchForm.bind(this);
+    this.returnToMain = this.returnToMain.bind(this);
   }
 
   updateForm(field) {
@@ -31,28 +31,27 @@ class RoomForm extends React.Component {
     this.setState({ roomId: "", nickname: "" });
   }
 
-  switchForm() {
-    const newForm = this.state.action === "join" ? "create" : "join";
-    this.setState({ action: newForm });
+  returnToMain() {
+    // const newForm = this.state.action === "join" ? "create" : "join";
+    // this.setState({ action: newForm });
+    this.setState({ phase: "decision"});
   }
 
   render() {
     const { action, phase } = this.state;
-    let buttonText,
-      otherButtonText = "";
+    let buttonText = "";
+    let otherButtonText = "GO BACK";
     let chooseForm, enterRoomCode, enterNickname, roomForm;
 
     if (action === "join") {
       buttonText = "JOIN ROOM";
-      otherButtonText = "CREATE ROOM";
     } else {
       buttonText = "CREATE ROOM";
-      otherButtonText = "JOIN ROOM";
     }
 
     if (phase === "decision") {
       chooseForm = (
-        <div>
+        <>
           <button
             className="landing-buttons"
             onClick={() => {
@@ -69,7 +68,13 @@ class RoomForm extends React.Component {
           >
             CREATE ROOM
           </button>
-        </div>
+          <button 
+            className="landing-buttons" 
+            onClick={() => this.props.handleStartSolo()
+          }>
+            PLAY SOLO
+          </button>
+        </>
       );
     } else if (phase === "decided") {
       enterRoomCode = (
@@ -101,8 +106,8 @@ class RoomForm extends React.Component {
             <button className="form-submit-button" type="submit">
               {buttonText}
             </button>
+            <button onClick={this.returnToMain}>{otherButtonText}</button>
           </form>
-          <button onClick={this.switchForm}>Or {otherButtonText}...</button>
         </>
       );
     }

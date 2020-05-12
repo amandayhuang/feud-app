@@ -118,6 +118,18 @@
   height: 70px;
 }
 
+.leave-game-button {
+  font-size: 0.3em;
+  width: 50%;
+  align-self: center;
+}
+
+.cheat-button {
+  font-size: 0.2em;
+  width: 50%;
+  align-self: center;
+}
+
 .timer {
   font-size: 1.3em;
   text-align: center;

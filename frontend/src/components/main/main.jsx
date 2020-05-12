@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import RoomForm from "../room/room_form";
 import Lobby from "../game/lobby";
 import Game from "../game/game";
+import SoloGame from '../game/solo_game';
 import HOST from "../../util/host";
 
 class Main extends React.Component {
@@ -127,6 +128,16 @@ class Main extends React.Component {
     this.socket.emit("startGame", this.state.roomName);
   }
 
+  handleStartSolo() {
+    this.socket.emit("startsolo");
+    this.setState({ roomName: this.socket.id});
+  }
+
+  handleLeaveSolo() {
+    this.setPhase("prelobby");
+    this.setState({ gameState: { players: [] } })
+  }
+
   render() {
     const roomName = this.state.roomName === "" ? "" : this.state.roomName;
     const { gameState, roomErrors, phase, gamePhase, otherAnswer } = this.state;
@@ -136,13 +147,12 @@ class Main extends React.Component {
     if (phase === "prelobby") {
       prelobby = (
         <>
-          <img id="logo" src="images/logo.png" />
-          <h2 className="room-name">{roomName}</h2>
+          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo"/>
           <div className="room-form-container">
             <RoomForm
               handleRoomJoin={(action, roomName, nickname) =>
-                this.handleRoomJoin(action, roomName, nickname)
-              }
+                this.handleRoomJoin(action, roomName, nickname)}
+              handleStartSolo={() => this.handleStartSolo()}
             />
           </div>
           <div className="errors">{roomErrors}</div>
@@ -151,7 +161,7 @@ class Main extends React.Component {
     } else if (phase === "lobby") {
       lobby = (
         <div>
-          <img id="logo" src="images/logo.png" />
+          <img id="logo" src="images/logo.png" alt="Feuding Friends Logo"/>
           <h2 className="room-name">{roomName}</h2>
           <Lobby
             gameState={gameState}
@@ -163,7 +173,7 @@ class Main extends React.Component {
     } else if (phase === "game") {
       game = (
         <div>
-          <img id="logo-in-game" src="images/logo.png" />
+          <img id="logo-in-game" src="images/logo.png" alt="Feuding Friends Logo" />
           <h2 className="room-name in-game">{roomName}</h2>
           <Game
             gameState={gameState}
@@ -174,6 +184,18 @@ class Main extends React.Component {
           />
         </div>
       );
+    } else if (phase ==="solo") {
+      game = (
+        <div>
+          <img id="logo-in-game" src="images/logo.png" alt="Feuding Friends Logo" />
+          <SoloGame
+            gameState={gameState}
+            gamePhase={gamePhase}
+            handleAnswerSubmit={(answer) => this.handleAnswerSubmit(answer)}
+            handleLeaveSolo={() => this.handleLeaveSolo()}
+          />
+        </div>
+      )
     }
 
     return (
