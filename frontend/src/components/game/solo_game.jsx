@@ -93,11 +93,10 @@ class SoloGame extends React.Component {
                         </div>
                         <div className="answer-form-container">
                             {gamePhase === "round" ? answerSection : ""}
+                            <button className="leave-game-button" onClick={() => this.props.handleLeaveSolo()}>LEAVE GAME</button>
+                            <button className="cheat-button" onClick={() => this.toggleCheat()}>CHEAT</button>
                         </div>
-                        <div>
-                            <button onClick={() => this.toggleCheat()}></button>
-                        </div>
-                    </div>
+                    </div>  
                 );
                 break;
             case "newRound":
