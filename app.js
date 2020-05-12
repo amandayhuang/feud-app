@@ -56,7 +56,7 @@ io.on('connect', (socket) => {
         io.to(roomName).emit('setPhase', 'game');
     })
 
-    socket.on('startsolo', () => {
+    socket.on('startSolo', () => {
         console.log('Starting solo game');
         let roomName = socket.id;
         socket.join(roomName);
@@ -65,6 +65,11 @@ io.on('connect', (socket) => {
         newRoom.createGame();
         socket.emit('receiveConsoleMessage', `You started a solo game`);
         socket.emit('setPhase', 'solo');
+    })
+
+    socket.on('leaveRoom', roomName => {
+        socket.leave(roomName);
+        delete rooms[roomName];
     })
 
     socket.on('answer', (answer, roomName) => {
@@ -81,28 +86,9 @@ setInterval(() => {
         const room = rooms[roomName];
         let newGameState = room.getGameState();
         io.to(room.roomName).emit('receiveGameState', newGameState);
-        // io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
+        io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
     })
 }, 200);
 
 const port = process.env.PORT || 5000;
 http.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-// const room = new Room("hello");
-// const player1 = new Player("adam", 123);
-// const player2 = new Player("amanda", 124);
-// const player3 = new Player("Naz", 125);
-// const player4 = new Player("Jared", 126);
-// room.players = [player1, player2, player3, player4];
-// console.log(room.roomName);
-
-
-
-
-//   room.game.receiveAnswer("Back");
-//   console.log(room.getGameState());
-//   room.game.receiveAnswer("fnjnr");
-//   console.log(room.getGameState());
-//   room.game.receiveAnswer("fnjnr");
-//   console.log(room.getGameState());

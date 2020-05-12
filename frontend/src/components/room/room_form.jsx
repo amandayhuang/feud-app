@@ -31,9 +31,8 @@ class RoomForm extends React.Component {
     this.setState({ roomId: "", nickname: "" });
   }
 
-  returnToMain() {
-    // const newForm = this.state.action === "join" ? "create" : "join";
-    // this.setState({ action: newForm });
+  returnToMain(e) {
+    e.preventDefault();
     this.setState({ phase: "decision"});
   }
 

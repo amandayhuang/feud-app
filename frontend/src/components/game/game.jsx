@@ -39,15 +39,15 @@ class Game extends React.Component {
     const strikesList = [];
     for (let i = 0; i < strikes; i++) {
       strikesList.push(
-        <li>
-          <img id="strike" src="images/strike.png" />
+        <li key={i}>
+          <img id="strike" src="images/strike.png" alt="" />
         </li>
       );
     }
     for (let i = 0; i < 3 - strikes; i++) {
       strikesList.push(
-        <li>
-          <img id="unstrike" src="images/strike.png" />
+        <li key={i}>
+          <img id="unstrike" src="images/strike.png" alt="" />
         </li>
       );
     }
