@@ -92,7 +92,7 @@ class SoloGame {
     resetRound() {
         setTimeout(() => {
             this.correctAnswerCount = 0;
-            this.accumulatedPoints = 0;
+            // this.accumulatedPoints = 0;
             this.strikes = 0;
             this.round += 1;
             this.mentionedAnswers = [];
