@@ -34,7 +34,7 @@
 .room-form {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 110%;
 }
 
 .room-form-container {
@@ -90,14 +90,17 @@
 
 .footer-outer {
   background-color: var(--footer-orange);
-  bottom: 0;
-  display: flex;
-  flex-shrink: 0;
-  left: 0;
-  padding: 40px;
-  position: sticky;
-  right: 0;
   z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer-inner {
@@ -106,6 +109,7 @@
 
 .footer-list {
   list-style: none;
+  text-align: center;
 }
 
 .footer-image {

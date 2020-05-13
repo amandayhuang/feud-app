@@ -5,19 +5,10 @@ const Footer = () => {
     <div className="footer-outer">
       <div className="footer-inner">
         <div className="footer-col">
-          <a href="https://github.com/amandayhuang/feud-app" target="_blank">
-            <img
-              className="footer-image"
-              src="favicon.png"
-              alt="Feuding Friends Logo"
-            />
-          </a>
-        </div>
-        <div className="footer-col">
-          <h4 className="footer-title">Feuding Friends</h4>
+          <h4 className="footer-title">Created By</h4>
           <ul className="footer-list">
             <li className="footer-list-item">
-              <span>Adam Moftah, frontend development & design</span>
+              <span>Adam Moftah</span>
               &nbsp;
               <a href="https://github.com/adammoftah" target="_blank">
                 <i class="fab fa-github icon"></i>
@@ -37,7 +28,7 @@ const Footer = () => {
             </li>
             <li className="footer-list-item">
               <span>
-                Amanda Huang, <em>team lead, backend development</em>
+                Amanda Huang
               </span>
               &nbsp;
               <a href="https://github.com/amandayhuang" target="_blank">
@@ -58,7 +49,7 @@ const Footer = () => {
             </li>
             <li className="footer-list-item">
               <span>
-                Jared Meier, <em>frontend lead</em>
+                Jared Meier
               </span>
               &nbsp;
               <a href="https://github.com/jaredmeier" target="_blank">
@@ -76,7 +67,7 @@ const Footer = () => {
             </li>
             <li className="footer-list-item">
               <span>
-                Nazia Islam, <em>backend development</em>
+                Nazia Islam
               </span>
               &nbsp;
               <a href="https://github.com/Naziaislam80" target="_blank">

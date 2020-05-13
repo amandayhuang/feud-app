@@ -50,7 +50,8 @@ button:hover {
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
+  display: grid;
+  height: 100vh;
+  min-height: 600px;
+  grid-template-rows: 1fr 130px;
 }
