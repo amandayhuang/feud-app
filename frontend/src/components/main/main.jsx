@@ -6,6 +6,7 @@ import Lobby from "../game/lobby";
 import Game from "../game/game";
 import SoloGame from "../game/solo_game";
 import HOST from "../../util/host";
+import Footer from "../footer/footer";
 
 class Main extends React.Component {
   constructor(props) {
@@ -221,11 +222,14 @@ class Main extends React.Component {
     }
 
     return (
-      <div className="main-container">
-        {prelobby}
-        {lobby}
-        {game}
-      </div>
+      <>
+        <div className="main-container">
+          {prelobby}
+          {lobby}
+          {game}
+        </div>
+        <Footer />
+      </>
     );
   }
 }

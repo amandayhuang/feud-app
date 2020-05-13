@@ -7,6 +7,7 @@
   align-items: center;
   box-sizing: border-box;
   display: flex;
+  flex: 1 0 auto;
   flex-direction: column;
   height: 100%;
   margin: 0 auto;
@@ -89,9 +90,13 @@
 
 .footer-outer {
   background-color: var(--footer-orange);
+  bottom: 0;
   display: flex;
+  flex-shrink: 0;
+  left: 0;
   padding: 40px;
-  width: 100%;
+  position: sticky;
+  right: 0;
   z-index: 600;
 }
 
