@@ -5,7 +5,7 @@ const fuzz = require('fuzzball');
 class SoloGame {
     constructor(roomName, io) {
         this.visitedQs = [];
-        this.round = 0;
+        this.round = 1;
         this.strikes = 0;
         this.correctAnswerCount = 0;
         this.mentionedAnswers = [];
