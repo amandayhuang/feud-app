@@ -89,11 +89,12 @@
 }
 
 .footer-outer {
-  background-color: var(--footer-orange);
-  z-index: 600;
-  display: flex;
   align-items: center;
+  background-color: var(--footer-orange);
+  display: flex;
   justify-content: center;
+  padding: 10px;
+  z-index: 600;
 }
 
 .footer-col {
