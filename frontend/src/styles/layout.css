@@ -51,7 +51,7 @@ button:hover {
 
 #root {
   display: grid;
+  grid-template-rows: 1fr 130px;
   height: 100vh;
   min-height: 600px;
-  grid-template-rows: 1fr 130px;
 }

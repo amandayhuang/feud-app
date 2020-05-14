@@ -128,3 +128,12 @@
 li span {
   color: #b24f35;
 }
+
+.repo-link {
+  color: var(--navy-shadow);
+  font-size: 13px;
+}
+
+.repo-link:hover {
+  color: var(--orange);
+}

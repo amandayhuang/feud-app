@@ -27,9 +27,7 @@ const Footer = () => {
               &nbsp;
             </li>
             <li className="footer-list-item">
-              <span>
-                Amanda Huang
-              </span>
+              <span>Amanda Huang</span>
               &nbsp;
               <a href="https://github.com/amandayhuang" target="_blank">
                 <i class="fab fa-github icon"></i>
@@ -48,9 +46,7 @@ const Footer = () => {
               &nbsp;
             </li>
             <li className="footer-list-item">
-              <span>
-                Jared Meier
-              </span>
+              <span>Jared Meier</span>
               &nbsp;
               <a href="https://github.com/jaredmeier" target="_blank">
                 <i class="fab fa-github icon"></i>
@@ -66,9 +62,7 @@ const Footer = () => {
               &nbsp;
             </li>
             <li className="footer-list-item">
-              <span>
-                Nazia Islam
-              </span>
+              <span>Nazia Islam</span>
               &nbsp;
               <a href="https://github.com/Naziaislam80" target="_blank">
                 <i class="fab fa-github icon"></i>
@@ -87,6 +81,11 @@ const Footer = () => {
               &nbsp;
             </li>
           </ul>
+          <span className="repo-link">
+            <a href="https://github.com/amandayhuang/feud-app" target="_blank">
+              Github Repo
+            </a>
+          </span>
         </div>
       </div>
     </div>
