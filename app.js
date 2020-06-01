@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
             socket.emit('receiveRoomError', 'Room already exists!');
         } else {
             socket.join(roomName);
-            socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
+            // socket.emit('receiveConsoleMessage', `You created room ${roomName}`);
             socket.emit('joinRoom', roomName);
             let newRoom = new Room(roomName, io);
             newRoom.addPlayer(nickname, socket.id);
@@ -43,7 +43,7 @@ io.on('connect', (socket) => {
     socket.on('join', (roomName, nickname) => {
         if (rooms[roomName]) {
             socket.join(roomName);
-            socket.emit('receiveConsoleMessage', `You joined room ${roomName}`);
+            // socket.emit('receiveConsoleMessage', `You joined room ${roomName}`);
             socket.emit('joinRoom', roomName);
             rooms[roomName].addPlayer(nickname, socket.id);
             roomsBySocket[socket.id] = roomName;
@@ -66,7 +66,7 @@ io.on('connect', (socket) => {
         let newRoom = new SoloRoom(roomName, io);
         rooms[roomName] = newRoom;
         newRoom.createGame();
-        socket.emit('receiveConsoleMessage', `You started a solo game`);
+        // socket.emit('receiveConsoleMessage', `You started a solo game`);
         socket.emit('setPhase', 'solo');
     })
 
@@ -90,10 +90,12 @@ io.on('connect', (socket) => {
     });
 
     socket.on('answer', (answer, roomName) => {
-        rooms[roomName].game.receiveAnswer(answer);
-        socket.to(roomName).emit('receiveOtherAnswer', socket.id, answer);
-        socket.emit('receiveConsoleMessage', `You answered ${answer}`);
-        socket.to(roomName).emit('receiveConsoleMessage', `Someone answered ${answer}`);
+        if (rooms[roomName]) {
+            rooms[roomName].game.receiveAnswer(answer);
+            socket.to(roomName).emit('receiveOtherAnswer', socket.id, answer);
+            // socket.emit('receiveConsoleMessage', `You answered ${answer}`);
+            // socket.to(roomName).emit('receiveConsoleMessage', `Someone answered ${answer}`);
+        }
     })
 });
 
@@ -101,9 +103,11 @@ io.on('connect', (socket) => {
 setInterval(() => {
     Object.keys(rooms).forEach(roomName => {
         const room = rooms[roomName];
-        let newGameState = room.getGameState();
-        io.to(room.roomName).emit('receiveGameState', newGameState);
-        io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
+        if (room) {
+            let newGameState = room.getGameState();
+            io.to(room.roomName).emit('receiveGameState', newGameState);
+            // io.to(room.roomName).emit('receiveConsoleMessage', 'Updating game state');
+        }
     })
 }, 200);
 
